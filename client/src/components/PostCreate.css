@@ -1,0 +1,65 @@
+.create-topBar{
+
+background-color: black;
+color: white;
+display: flex;
+justify-content: space-between;
+
+font-weight: bold;
+
+padding: 12px;
+}
+
+
+
+.create-topBar img {
+
+width:30px;
+
+
+
+}
+
+.left-topBar{
+
+display: flex;
+justify-content: space-around;
+
+}
+
+.Cflechita{
+margin-top: 5px;
+transform: rotate(180deg);
+margin-right:15px;
+
+}
+
+.btn-archive{
+
+
+margin-left: 15px;
+
+    background-color:#0770D4;
+    padding:10px;
+    color:white;
+
+
+
+
+}
+.text-description{
+    color: white;
+    margin-left: 10px;
+;
+    background-color: transparent;
+    border: none;
+font-size: 14px;
+
+}
+
+
+.text-description:focus-visible{
+
+outline: none;
+
+}

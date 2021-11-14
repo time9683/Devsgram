@@ -567,6 +567,7 @@ query GetComents($id:String){
 
      ref
      text
+     time
 
 
     }
@@ -592,12 +593,47 @@ query GetComents($id:String){
 `
 
 
+const sendComent = gql`
+
+
+
+
+mutation Comentar($id:String,$person:String,$text: String){
+
+  addComent(_id:$id,person:$person,text:$text){
+
+  status
+
+  }
+
+
+}
+
+
+`
+
+
+
+
+const {error,loading,data,refetch } = useQuery(query,{variables:{id:props._id}})
+const [comentar] = useMutation(sendComent);
+const [text,setText] =useState('');
 
 
 
 
 
-const {error,loading,data } = useQuery(query,{variables:{id:props._id}})
+
+
+useEffect(()=>{
+
+  refetch()
+
+
+},[])
+
+
+
 
 
 
@@ -618,13 +654,27 @@ return 'loading'
 
 
 
+ const write = (e) =>{
+
+setText(e.target.value);
+
+ }
+
+const  clickComent = (e) =>{
+
+
+comentar({variables:{id:props._id,person:localStorage.getItem("ID_A"),text:text}})
+
+setText('');
+
+}
 
  console.log(data)
 let coments;
 if(data.getOneReal.coments != null) {
 
 
- coments = data.getOneReal.coments.map(x=> <Comentario key={x.ref} name={x.ref} text={x.text}/>)
+ coments = data.getOneReal.coments.map(x=> <Comentario key={x.ref} name={x.ref} timestamp={x.time} text={x.text}/>)
 }
 
 
@@ -649,8 +699,8 @@ return(
 <div className="BottomBarCommens">
 
   <img src={perfil} style={{width:'40px',height:'40px',borderRadius:'50%'}} alt='perfil img'/>
-  <input type="text"  className='text_coment' placeholder="agrega un comentario..."/>
-   <p style={{color:"#039be5",marginTop:'10px',fontSize:'14px'}}>publicar</p>
+  <input type="text" value={text}  onChange={write} className='text_coment' placeholder="agrega un comentario..."/>
+   <button style={{color:"#039be5",marginTop:'10px',fontSize:'14px',border:'none',backgroundColor:'none'}}  onClick={clickComent}  >publicar</button>
 </div>
 
 
@@ -694,8 +744,8 @@ return(
 <p>{props.name}</p>
 <p>{props.text}</p>
 </div>
-<div>
-<p>{props.timestamp}</p>
+<div style={{display:'flex',justifyContent:'space-around',fontSize:'12px',color:'#777'}}>
+<p>{(( new Date - props.timestamp ) /(1000 * 60)).toFixed(0)  }minutos</p>
 <p>{props.likes}</p>
 <p>responder</p>
 </div>

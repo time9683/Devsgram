@@ -180,6 +180,25 @@ const resolvers =  {
                     },
 
                         Mutation : {
+                            addComent : async (_,{_id,person,text}) =>{
+                                   console.log(`${_id},${person},${text}`);
+
+
+                                try{
+                                await base.collection("Post").updateOne({_id:ObjectID(_id)},{$addToSet:{coments:{ref:person,text:text,time:new Date}}});
+                                return {status:'succes'};
+                                }
+                                catch(e){
+
+
+                                    return {status: 'error',};
+
+                                }
+
+
+
+
+                            },
 
                             removeLike : async (_,{id,person}) =>{
                                console.log(id);
@@ -344,13 +363,7 @@ const server = new ApolloServer({typeDefs,resolvers})
 await server.start()
 
 app.use(graphqlUploadExpress());
-app.use((req,res,next) =>{
 
-
-console.log(`cliente: ${req.connection.remoteAddress}`)
-next()
-
-})
 server.applyMiddleware({ app });
 
 

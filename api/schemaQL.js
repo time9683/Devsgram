@@ -57,7 +57,10 @@ Id : String,
 
 
 type Mutation {
-    removeLike(id: String,person: String) : status
+
+
+addComent(_id:String,person: String,text: String) : status
+removeLike(id: String,person: String) : status
 
 
 likes(_id:String,person:String) :  status
@@ -128,6 +131,7 @@ type coment {
 
 ref : String
 text : String
+time : String
 
 
 

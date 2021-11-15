@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-// import './App.css';
+import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -40,7 +40,7 @@ import { createUploadLink } from 'apollo-upload-client';
 const client = new ApolloClient({
   // uri: 'http://192.168.1.105:4000',
   cache: new InMemoryCache(),
-  link: createUploadLink({uri:'http://192.168.1.105:5000/graphql'})
+  link: createUploadLink({uri:'http://192.168.1.109:5000/graphql'})
 });
 
 
@@ -68,7 +68,7 @@ console.log('leno')
 let query = JSON.stringify({query:`{ Vauth(Token:"${authToken}"){ status } }`});
 
 
-fetch("http://192.168.1.105:5000/graphql",{method:"POST",headers:{"Content-Type": "application/json"},body:query}).then( res => { 
+fetch("http://192.168.1.109:5000/graphql",{method:"POST",headers:{"Content-Type": "application/json"},body:query}).then( res => { 
 
 res.json().then( data =>  { 
   
@@ -218,7 +218,7 @@ const SuperApp =  () => {
 
 return ( 
 <ApolloProvider client={client}>
-<App/>
+<App   />
 </ApolloProvider>
 )
 }

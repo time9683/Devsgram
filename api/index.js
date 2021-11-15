@@ -3,7 +3,7 @@ const {MongoClient} = require('mongodb');
 const jwt = require('jsonwebtoken');
 const upload = require('express-fileupload');
 const cors = require('cors');
-const { ObjectID } = require('bson');
+const { ObjectID, ObjectId } = require('bson');
 const {GraphQLUpload,
     graphqlUploadExpress,} = require("graphql-upload");
 const { finished } = require('stream/promises');
@@ -140,8 +140,8 @@ const resolvers =  {
                     
                 
                 
-                GetUser : ({id}) =>{
-                return base.collection("Users").findOne({email:id});
+                GetUser : (_,{id}) =>{
+                return base.collection("Users").findOne({_id:ObjectId(id)});
                 
                 },
                 
@@ -292,7 +292,7 @@ const resolvers =  {
 
                                            try{
 
-                                      await base.collection("Post").insertOne({type:tipo,src:`http://192.168.1.105:5000/${fileUrl}`,description:text,likes:[],coments:[]})
+                                      await base.collection("Post").insertOne({type:tipo,src:`http://192.168.1.109:5000/${fileUrl}`,description:text,likes:[],coments:[]})
                                         }catch{
 
 

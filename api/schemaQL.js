@@ -35,7 +35,7 @@ Vauth(Token : String) :AuthResponse
 "retorna todos los usuarios resgistrados"
 Users : [User]
 
-GetUser(id: ID) : User
+GetUser(id: String) : User
 
 
 

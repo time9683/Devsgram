@@ -364,8 +364,8 @@ const Comentarios = (props) => {
   console.log(data);
   let coments;
   if (data.getOneReal.coments != null) {
-    coments = data.getOneReal.coments.map((x) => (
-      <Comentario key={x.ref} name={x.ref} timestamp={x.time} text={x.text} />
+    coments = data.getOneReal.coments.map((x,index) => (
+      <Comentario key={x.ref + index } name={x.ref} timestamp={x.time} text={x.text} />
     ));
   }
 

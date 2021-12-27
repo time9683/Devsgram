@@ -1,0 +1,95 @@
+.barHis-elem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    ;
+}
+
+
+
+.barHis-img{
+padding: 2px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background:linear-gradient(
+        180deg, rgba(158,8,31,1) 38%, rgba(255,192,0,1) 91%);
+}
+
+.barHis-username{
+    font-size: 14px;
+    font-weight: bold;
+    color: whitesmoke;
+margin: 5px;
+}
+
+.barHis{
+    gap: 15px;
+    padding-top: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content:start ;
+    align-items: center;
+height: 90px;
+background-color: black;
+
+overflow-x: scroll;
+overflow-y: hidden;
+
+
+}
+
+
+a{
+
+text-decoration: none;
+
+}
+
+
+.His-container{
+background-color: black;
+
+
+
+}
+
+.Display{
+    transition: all 1s;
+overflow-x: scroll;
+overflow-y: hidden;
+height: 90vh;
+width: 100vw;
+display: flex;
+scroll-snap-type: x mandatory;
+}
+
+
+.his-send{
+height: 10vh;
+background-color: black;
+display: flex;
+
+}
+
+.video-his{
+scroll-snap-align: start;
+
+
+width: 100vw;
+/* aspect-ratio: 16/9; */
+
+
+}
+
+
+.his-hh{
+
+position: relative;
+
+
+}

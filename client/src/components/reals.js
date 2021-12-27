@@ -1,23 +1,22 @@
-/* eslint-disable no-unused-expressions */
 
-import React, { useState, useEffect, useRef } from "react";
-import { Navbar } from "./home.js";
-import "./reals.css";
-import hear from "./corazon.svg";
-import perfil from "./perfil.jpg";
-import burble from "./burble.svg";
-import send from "./send.svg";
-import puntos from "./puntos.svg";
-import flechita from "./flecha.svg";
-import hearfill from "./hear_fill.svg";
-import hearfillG from "./hear_fillG.svg";
-import perfil2 from "./perfil.svg";
-import poster from "./negro.jpg";
+import React, { useState, useEffect, useRef } from 'react'
+import { Navbar } from './home.js'
+import './reals.css'
+import hear from './corazon.svg'
+import perfil from './perfil.jpg'
+import burble from './burble.svg'
+import send from './send.svg'
+import puntos from './puntos.svg'
+import flechita from './flecha.svg'
+import hearfill from './hear_fill.svg'
+import hearfillG from './hear_fillG.svg'
+import perfil2 from './perfil.svg'
+import poster from './negro.jpg'
 
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useQuery, useMutation } from '@apollo/client'
 
-//recove host from enviroment
-const host = process.env.REACT_APP_HOST;
+// recove host from enviroment
+const host = process.env.REACT_APP_HOST
 
 const query = gql`
   query  GetReals($page:Int,$limit:Int) {
@@ -32,36 +31,31 @@ const query = gql`
       }
     }
   }
-`;
+`
 
-
-
-//make a hook that detect user is 100px to the end of the page with  intersetionObserver
-const useIntersectionObserver = (root,callback,externalRef) => {
-  const ref = useRef();
+// make a hook that detect user is 100px to the end of the page with  intersetionObserver
+const useIntersectionObserver = (root, callback, externalRef) => {
+  const ref = useRef()
   useEffect(() => {
-    const element =  externalRef ?   externalRef.current :   ref.current;
-
- 
+    const element = externalRef ? externalRef.current : ref.current
 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        callback();
+        callback()
       }
-    },{
+    }, {
       root,
       rootMargin: RealsTopixel(5) + 'px'
-    });
+    })
     if (element) {
-      observer.observe(element);
+      observer.observe(element)
     }
     return () => {
-      observer.disconnect();
-    };
-  }, [externalRef,ref]);
-  return ref;
-};
-
+      observer.disconnect()
+    }
+  }, [externalRef, ref])
+  return ref
+}
 
 // const  graphqlQuery = async (query) => {
 
@@ -69,170 +63,147 @@ const useIntersectionObserver = (root,callback,externalRef) => {
 
 // }
 
+const RealsTopixel = (amount) => {
+  const screenHeight = window.innerHeight
+  // heigth the margin is 90% of the screen
+  const margin = screenHeight * 0.9
 
-const RealsTopixel = (amount) =>{
-
-let screenHeight = window.innerHeight;
-//heigth the margin is 90% of the screen
-let margin = screenHeight * 0.9;
-
-
-
-return amount * margin;
-
-
+  return amount * margin
 }
 
-var obersevador = new IntersectionObserver(
-
-
-
+const obersevador = new IntersectionObserver(
 
   (entradas, _) => {
     entradas.forEach((en) => {
       if (en.isIntersecting) {
-        en.target.currentTime = 0;
-        en.target.play();
+        en.target.currentTime = 0
+        en.target.play()
       } else {
-        en.target.pause();
+        en.target.pause()
       }
-    });
+    })
   },
   { threshold: 0.4 }
-);
+)
 
 export const Reals = () => {
   // const [vi,setVi] = useState([]);
-  const [ViewComents, Vactive] = useState(false);
-  const [view, setView] = useState();
+  const [ViewComents, Vactive] = useState(false)
+  const [view, setView] = useState()
 
-
-
-  useEffect(() => {}, []);
+  useEffect(() => { }, [])
 
   const SwichtComents = (id) => {
     if (id) {
-      setView(id);
+      setView(id)
     }
 
     if (ViewComents) {
-      Vactive(false);
+      Vactive(false)
     } else {
-      Vactive(true);
+      Vactive(true)
     }
-  };
+  }
 
-
-  const rootRef = useRef();
+  const rootRef = useRef()
   return (
     <div>
       <div
-         ref={rootRef}
-        className={ViewComents === false ? "container" : "container preview"}
+        ref={rootRef}
+        className={ViewComents === false ? 'container' : 'container preview'}
       >
-        <Display handleC={SwichtComents}  rooRef={rootRef}/>
+        <Display handleC={SwichtComents} rooRef={rootRef} />
       </div>
 
-      {ViewComents === false ? (
-        <Navbar />
-        
-      ) : (
-        <Comentarios _id={view} handleCommnets={SwichtComents} />
-      )}
+      {ViewComents === false
+        ? (
+          <Navbar />
 
-     
+          )
+        : (
+          <Comentarios _id={view} handleCommnets={SwichtComents} />
+          )}
+
     </div>
-  );
-};
+  )
+}
 
 const Display = (props) => {
-  const { loading, error, data  , fetchMore} = useQuery(query, {variables:{page:0,limit:10}});
-const [page,setPage] = useState(0);
+  const { loading, error, data, fetchMore, refetch } = useQuery(query, { variables: { page: 0, limit: 10 } })
+  const [page, setPage] = useState(0)
 
+  const externalRef = useRef()
+  const ref = useIntersectionObserver(props.rooRef.current, () => { setPage((page) => page + 1) }, loading ? null : externalRef)
 
-const externalRef = useRef();
-const ref = useIntersectionObserver(props.rooRef.current,()=>  {setPage((page)=> page +1 )},loading ? null : externalRef);
+  useEffect(() => {
+    if (data && page === 0) {
+      const numberOfvideo = data.GetReals.length
+      const pageOfvideo = Math.ceil(numberOfvideo / 5)
+      setPage(pageOfvideo)
+      console.log('chache:', page)
+    }
+  }, [])
 
-
-useEffect(() => {
-
- 
-  if(data && page === 0){
-    let numberOfvideo = data.GetReals.length;
-    let pageOfvideo = Math.ceil(numberOfvideo/5);
-    setPage(pageOfvideo);
-    console.log('chache:',page)
-  }
-
-} ,[]);
-
-
-
-
-useEffect(() => {
-  console.log("fech:",page)
-  if(page !== 0 ){
-  fetchMore({variables:{page}})
-  }
-}, [page]);
-
-
+  useEffect(() => {
+    console.log('fech:', page)
+    if (page !== 0) {
+      fetchMore({ variables: { page } })
+    }
+  }, [page])
 
   if (loading) {
     return (
       <div
         style={{
-          height: "90vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "black",
+          height: '90vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'black'
         }}
       >
-        {" "}
+        {' '}
         <div className="spinner"></div>
       </div>
-    );
+    )
   }
 
   if (error) {
     return (
       <div
         style={{
-          height: "90vh",
-          backgroundColor: "black",
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          height: '90vh',
+          backgroundColor: 'black',
+          color: 'white',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <p>hubo un error en el ingreso de datos</p>
       </div>
-    );
+    )
   }
 
-  return  <>
-  {
-  data.GetReals.map((vide) => (
-    <Video
-      ComentsCan={vide.coments}
-      status={false}
-      key={vide._id}
-      src={`http://${host}:5000${vide.src}`}
-      likes={vide.likes}
-      id={vide._id}
-      handleCommnets={props.handleC}
-    />
-  ))
-}
-  
-   
-   <div id="visor"  ref={externalRef}></div>
-  
+  return <>
+    {
+      data.GetReals.map((vide) => (
+        <Video
+          ComentsCan={vide.coments}
+          status={false}
+          key={vide._id}
+          src={`http://${host}:5000${vide.src}`}
+          likes={vide.likes}
+          id={vide._id}
+          handleCommnets={props.handleC}
+        />
+      ))
+    }
+
+    <div id="visor" ref={externalRef}></div>
+
   </>
-  
-};
+}
 
 const Tolike = gql`
   mutation Like($id: String, $person: String) {
@@ -240,7 +211,7 @@ const Tolike = gql`
       status
     }
   }
-`;
+`
 
 const dislike = gql`
   mutation Dislike($id: String, $person: String) {
@@ -248,29 +219,27 @@ const dislike = gql`
       status
     }
   }
-`;
+`
 
 const Video = (props) => {
   // const [Isplay,playing] = useState(props.status)
-  const [LikeTo, { data }] = useMutation(Tolike);
-  const [dislikeTo] = useMutation(dislike);
+  const [LikeTo, { data }] = useMutation(Tolike)
+  const [dislikeTo] = useMutation(dislike)
 
-  const [Melike, playLike] = useState(false);
+  const [Melike, playLike] = useState(false)
 
-//isloaing state
-  const [isload, setLoading] = useState(true);
+  // isloaing state
+  const [isload, setLoading] = useState(true)
 
-useEffect(() => { 
+  useEffect(() => {
+    console.log(isload)
+  }, [isload])
 
-console.log(isload)
-
-},[isload])
-
-  let grayhear;
+  let grayhear
 
   const splace = (e) => {
-    e.target.style.display = "none";
-  };
+    e.target.style.display = 'none'
+  }
 
   if (data) {
     grayhear = (
@@ -279,62 +248,57 @@ console.log(isload)
         className="like-hear-front"
         onAnimationEnd={splace}
       ></img>
-    );
+    )
   }
 
   useEffect(() => {
-    let exist = false;
+    let exist = false
 
     for (const person of props.likes) {
-      if (person.idU == localStorage.getItem("ID_A")) {
-        exist = true;
-        playLike(true);
+      if (person.idU == localStorage.getItem('ID_A')) {
+        exist = true
+        playLike(true)
       }
     }
 
     if (!exist) {
-      playLike(false);
+      playLike(false)
     }
-  }, []);
+  }, [])
 
-  const Ev = useRef(null);
+  const Ev = useRef(null)
 
   useEffect(() => {
-    obersevador.observe(Ev.current);
-  }, []);
-
-
-
+    obersevador.observe(Ev.current)
+  }, [])
 
   const like = () => {
     if (!Melike) {
       LikeTo({
-        variables: { id: props.id, person: localStorage.getItem("ID_A") },
-      });
-      playLike(true);
+        variables: { id: props.id, person: localStorage.getItem('ID_A') }
+      })
+      playLike(true)
     } else {
       dislikeTo({
-        variables: { id: props.id, person: localStorage.getItem("ID_A") },
-      });
-      playLike(false);
+        variables: { id: props.id, person: localStorage.getItem('ID_A') }
+      })
+      playLike(false)
     }
-  };
+  }
 
   const plays = (e) => {
     if (e.target.paused) {
-      e.target.play();
+      e.target.play()
       // playing(false)
     } else {
-      e.target.pause();
+      e.target.pause()
       // playing(true);
     }
-  };
+  }
 
   const commas = (likes) => {
-    return likes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-
+    return likes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
 
   return (
     <div className="container-video">
@@ -344,17 +308,17 @@ console.log(isload)
             src={Melike == true ? hearfill : hear}
             alt="likes icon"
             className="hear" />
-          <p style={{ color: "white" }}>{commas(props.likes.length)}</p>
+          <p style={{ color: 'white' }}>{commas(props.likes.length)}</p>
         </div>
 
         <div
           className="atributo"
           onClick={() => {
-            props.handleCommnets(props.id);
-          } }
+            props.handleCommnets(props.id)
+          }}
         >
           <img src={burble} className="hear" alt="comments icon" />
-          <p style={{ color: "white" }}>
+          <p style={{ color: 'white' }}>
             {props.ComentsCan ? commas(props.ComentsCan.length) : 0}
           </p>
         </div>
@@ -369,37 +333,37 @@ console.log(isload)
       </div>
 
       {grayhear}
-      {/* evento mientras descarga los recursos set loading true*/}
+      {/* evento mientras descarga los recursos set loading true */}
 
+      <div className="spinner-loadder" style={{ display: isload ? 'flex' : 'none' }} >
 
-      <div  className="spinner-loadder" style={{display : isload ? "flex" : 'none'}} >
-
-      <div  className="spinner"></div>
+        <div className="spinner"></div>
 
       </div>
 
-
       <video
 
-         style={{filter : isload ? "blur(5px)" : "none"}}
+        style={{ filter: isload ? 'blur(5px)' : 'none' }}
         id="video"
         loop={true}
         poster={poster}
         className="video"
+        onTouchStart={plays}
+        onTouchEnd={plays}
         onDoubleClick={like}
         src={props.src}
-        onClick={plays}
-        ref={Ev} 
-         onContextMenu={ e => e.preventDefault()}
-            onCanPlay={() =>  setLoading(false)}   
-            onWaiting={() => setLoading(true)}
-        />
-    </div>   
-  );
-};
+        // onClick={plays}
+        ref={Ev}
+        onContextMenu={e => e.preventDefault()}
+        onCanPlay={() => setLoading(false)}
+        onWaiting={() => setLoading(true)}
+      />
+    </div>
+  )
+}
 
 const Comentarios = (props) => {
-  console.log(props._id);
+  console.log(props._id)
 
   const query = gql`
     query GetComents($id: String) {
@@ -411,7 +375,7 @@ const Comentarios = (props) => {
         }
       }
     }
-  `;
+  `
 
   const sendComent = gql`
     mutation Comentar($id: String, $person: String, $text: String) {
@@ -419,48 +383,48 @@ const Comentarios = (props) => {
         status
       }
     }
-  `;
+  `
 
   const { error, loading, data, refetch } = useQuery(query, {
-    variables: { id: props._id },
-  });
-  const [comentar] = useMutation(sendComent);
-  const [text, setText] = useState("");
+    variables: { id: props._id }
+  })
+  const [comentar] = useMutation(sendComent)
+  const [text, setText] = useState('')
 
   useEffect(() => {
-    refetch();
-  }, []);
+    refetch()
+  }, [])
 
   if (error) {
-    return "data not fount";
+    return 'data not fount'
   }
 
   if (loading) {
-    return "loading";
+    return 'loading'
   }
 
   const write = (e) => {
-    setText(e.target.value);
-  };
+    setText(e.target.value)
+  }
 
   const clickComent = (e) => {
     comentar({
       variables: {
         id: props._id,
-        person: localStorage.getItem("ID_A"),
-        text: text,
-      },
-    });
+        person: localStorage.getItem('ID_A'),
+        text: text
+      }
+    })
 
-    setText("");
-  };
+    setText('')
+  }
 
-  console.log(data);
-  let coments;
+  console.log(data)
+  let coments
   if (data.getOneReal.coments != null) {
-    coments = data.getOneReal.coments.map((x,index) => (
-      <Comentario key={x.ref + index } name={x.ref} timestamp={x.time} text={x.text} />
-    ));
+    coments = data.getOneReal.coments.map((x, index) => (
+      <Comentario key={x.ref + index} name={x.ref} timestamp={x.time} text={x.text} />
+    ))
   }
 
   return (
@@ -472,13 +436,13 @@ const Comentarios = (props) => {
               src={flechita}
               alt="volver"
               style={{
-                width: "30px",
-                transform: "rotate(180deg)",
-                marginRight: "30px",
+                width: '30px',
+                transform: 'rotate(180deg)',
+                marginRight: '30px'
               }}
               onClick={() => props.handleCommnets()}
             />
-            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+            <span style={{ fontSize: '20px', fontWeight: 'bold' }}>
               Comentarios
             </span>
           </li>
@@ -493,7 +457,7 @@ const Comentarios = (props) => {
       <div className="BottomBarCommens">
         <img
           src={perfil}
-          style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+          style={{ width: '40px', height: '40px', borderRadius: '50%' }}
           alt="perfil img"
         />
         <input
@@ -505,11 +469,11 @@ const Comentarios = (props) => {
         />
         <button
           style={{
-            color: "#039be5",
-            marginTop: "5px",
-            fontSize: "14px",
-            border: "none",
-            backgroundColor: "transparent",
+            color: '#039be5',
+            marginTop: '5px',
+            fontSize: '14px',
+            border: 'none',
+            backgroundColor: 'transparent'
           }}
           onClick={clickComent}
         >
@@ -517,13 +481,12 @@ const Comentarios = (props) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // eslint-disable-next-line no-unused-vars
 const Comentario = (props) => {
-
-const getUsername = gql`
+  const getUsername = gql`
 
 query getName($id: String){
 
@@ -548,74 +511,55 @@ query getName($id: String){
 
 `
 
+  const { loading, data, err } = useQuery(getUsername, { variables: { id: props.name } })
+  let username
 
+  if (loading) {
+    username = '...'
+  }
 
-
-
-
-const {loading,data,err} = useQuery(getUsername,{variables:{id:props.name}})
-let username;
-
-
-
-if(loading){
-username = '...'
-
-
-
-}
-
-
-if(data){
-
-console.log(data);
-username = data.GetUser.name
-
-}
-
-
-
-
-
-
+  if (data) {
+    console.log(data)
+    username = data.GetUser.name
+  }
 
   const CalcularTime = (time) => {
     if (time < 60) {
-      return `${time.toFixed(0)}s`;
+      return `${time.toFixed(0)}s`
     }
 
     if (time >= 60) {
       if (time >= 3600) {
         if (time / 3600 >= 24) {
           if ((time / 3600) * 24 >= 7) {
-            return `${((time / 3600) * 24 * 7).toFixed(0)}sem`;
+            return `${((time / 3600) * 24 * 7).toFixed(0)}sem`
           }
 
-          return `${((time / 3600) * 24).toFixed(0)}d`;
+          return `${((time / 3600) * 24).toFixed(0)}d`
         }
 
-        return `${(time / 3600).toFixed(0)}h`;
+        return `${(time / 3600).toFixed(0)}h`
       }
 
-      return `${(time / 60).toFixed(0)}m`;
+      return `${(time / 60).toFixed(0)}m`
     }
-  };
+  }
 
   return (
-    <div style={{ backgroundColor: "black", color: "white", padding: "10px",marginLeft:'10px' }}>
-      <div style={{ display: "flex"}}>
-        <img src={perfil2} style={{ width: "30px" }} alt="imagem perfil" />
+    <div style={{ backgroundColor: 'black', color: 'white', padding: '10px', marginLeft: '10px' }}>
+      <div style={{ display: 'flex' }}>
+        <img src={perfil2} style={{ width: '30px' }} alt="imagem perfil" />
         {/* <p style={{ marginRight: "10px",marginLeft:"10px" ,fontSize: "14px",fontWeight: "bold" }}>{username}</p> */}
-        <p style={{fontSize: "14px",marginLeft:"10px",width: "280px"}}><span style={{ marginRight: "10px",fontWeight: "bold"}}>{username}</span>{   props.text}</p>
+        <p style={{ fontSize: '14px', marginLeft: '10px', width: '280px' }}><span style={{ marginRight: '10px', fontWeight: 'bold' }}>{username}</span>{props.text}</p>
       </div>
       <div
         style={{
-          width: "200px",
-          display: "flex",
-          justifyContent: "space-around",
-          fontSize: "12px",
-          color: "#777",
-          marginLeft:'30px'
+          width: '200px',
+          display: 'flex',
+          justifyContent: 'space-around',
+          fontSize: '12px',
+          color: '#777',
+          marginLeft: '30px'
         }}
       >
         <p>{CalcularTime((new Date() - props.timestamp) / 1000)}</p>
@@ -623,7 +567,5 @@ username = data.GetUser.name
         <p>Responder</p>
       </div>
     </div>
-  );
-};
-
-
+  )
+}

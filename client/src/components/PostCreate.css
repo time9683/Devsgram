@@ -63,3 +63,17 @@ font-size: 14px;
 outline: none;
 
 }
+
+.form_tipes{
+color:white;
+display: flex;
+justify-content: space-evenly;
+}
+
+.form_creates{
+
+margin-bottom: 10px;
+display: flex;
+
+
+}

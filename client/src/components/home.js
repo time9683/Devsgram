@@ -15,7 +15,7 @@ import plus from "./plus.svg";
 import hear from  "./corazon.svg";
 
 import {POST} from "./Post.js";
-
+import {HistoriaBar} from './history/historyBar';
 
 
 
@@ -28,7 +28,7 @@ return(
 <Topbar/>
 
 <div className="Display">
-
+<HistoriaBar/>
 <POST/>
 <POST/>
 

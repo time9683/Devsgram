@@ -101,6 +101,35 @@ const resolvers =  {
 
     Query:{
 
+        //create a function with return the names of the users that user is following
+           GetHistoryUsers  : async (root,args,context) => {
+               const {id} =  context
+                //  if(id) return   
+                //  console.log(id) 
+                 
+               UserInfo = await base.collection("Users").findOne({_id:ObjectID(id)});
+               followed =  UserInfo.followed;
+
+                let Users =  await base.collection("Users").find({_id:{$in:followed},}).toArray();
+
+                  let ids =  Users.map(user =>  user._id.toString());
+
+               let  hashistory = await base.collection("Post").find({ref:{$in:ids},}).toArray(); 
+
+               //create a array with the name of the user has Post
+                let  UsersPost = hashistory.map(post => {  
+                     let  user =  Users.find(user => user._id.toString() === post.ref.toString());
+                 return {    name:user.name,id:user._id,     }
+                                                        })
+                 //delete repeated users
+                    let  FilterUsers = UsersPost.filter((item,index) => UsersPost.findIndex(item2 => item2.id === item.id) === index)
+                return {historys:hashistory,Users : FilterUsers}
+            
+                
+        },
+
+
+
 
         Vauth : (_,{Token})=>{
 
@@ -254,9 +283,10 @@ const resolvers =  {
                                 
                                 },
 
-                            sendFile : async (parent, { file,text }) =>{
+                            sendFile : async (parent, { file,text,tipe},context) =>{
                                 const { createReadStream, filename, mimetype, encoding } = await file;
                                 const stream = createReadStream();
+                                const {id} = context;
 
                                 const fileUrl = `${uniqid()}${filename}`;
 
@@ -266,22 +296,11 @@ const resolvers =  {
                                 await  finished(out);
                              console.log( {status:"succes",mensaje:`${filename}/${mimetype}`});
                                          
-                             let tipo;
-                             if(mimetype === "image/jpeg" || mimetype === "image/jpg"){
-
-                              
-                              tipo = post
-
-                             }else{ 
-
-                                tipo = 'Reals'
-
-                             }
-                                                                                         
+                                                                            
 
                                            try{
 
-                                      await base.collection("Post").insertOne({type:tipo,src:`/${fileUrl}`,description:text,likes:[],coments:[]})
+                                      await base.collection("Post").insertOne({ref:id,type:tipe,src:`/${fileUrl}`,description:text,likes:[],coments:[]})
                                         }catch{
 
 
@@ -346,7 +365,29 @@ const resolvers =  {
 
 
 const startServer = async () =>{
-const server = new ApolloServer({typeDefs,resolvers})
+const server = new ApolloServer({typeDefs,resolvers,
+    
+    context :({req})=>{
+
+
+        
+        const token = req.headers['authorization'] || "";
+        const payload = verify(token);
+        if(payload.info?.check){
+            return {
+                token,
+                id:payload.info._id
+            }
+        }
+        return {
+            token,
+            id:null
+        }
+    
+
+
+
+}})
 
 
 await server.start()

@@ -17,6 +17,14 @@ info : User
 
 }
 
+type History {  
+    historys: [Post]
+Users: [User]
+
+
+}
+
+
 
 
 
@@ -29,7 +37,7 @@ type Query  {
 "verifica si el token es valido y retorna cualquier informacion del usuario"
 Vauth(Token : String) :AuthResponse
 
-
+GetHistoryUsers : History
 
 
 "retorna todos los usuarios resgistrados"
@@ -65,7 +73,7 @@ removeLike(id: String,person: String) : status
 
 likes(_id:String,person:String) :  status
 
-sendFile(file: Upload,text: String) : status
+sendFile(file: Upload,text: String,tipe : String) : status
 
 Auth(email: String, password: String) :  auth
 
@@ -115,6 +123,7 @@ tipo : String
 description : String
 likes : [like]
 coments : [coment]
+ref: String
 }
 
 

@@ -4,7 +4,6 @@ import puntos from "./puntos.svg";
 import flecha  from "./flecha.svg";
 import perfil from "./perfil.jpg"
 import "./perfiil.css"
-import vi from  './11.mp4'
 
 import real from './video.svg'
 import po from './pos.svg'
@@ -255,7 +254,7 @@ const ViewReals = () =>{
     
         <div className="viewP">
         
-        <video src={vi} className="view-img" ></video>
+        <video  className="view-img" ></video>
         
         </div>
         

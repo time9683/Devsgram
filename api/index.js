@@ -26,8 +26,9 @@ const typeDefs = require("./schemaQL");
 
 
 const clave = 'pwdISCOOL';
-
-const client = new MongoClient('mongodb://localhost:27017/?readPreference=primary&ssl=false');
+//url conexion mongodb
+const url = "mongodb://localhost:27017/";
+const client = new MongoClient(url);
 client.connect();
 const base  = client.db("Devsgram")
 
@@ -48,6 +49,10 @@ app.use(express.static('public'));
 
 
 
+//create a  entry point with pagination that return 5 Posts  depending on the page number
+const getVideosPagination = async (page,limit) => {
+    return await base.collection("Post").find({}).skip(page*limit).limit(limit).toArray();
+}
 
 
 
@@ -62,22 +67,17 @@ app.use(express.static('public'));
 
 
 
-
-
-app.post("/video/add",(req, res) => {
-
-    let Efile = req.files.file;
-    Efile.mv(`./public/${Efile.name}`,err => {
-    if(err){
-    console.log("Error: " + err);
-    return res.status(500).send(`${Efile.name} error to added`);
-    }
-    
-    return res.status(200).send(`${Efile.name} added`);
+app.post("/video/:page",(req, res) => {
+    const page = req.params.page;
+    getVideosPagination(page).then(videos => {
+        console.log(videos.length);
+        res.json(videos);
     })
-    })
+})
+   
 
-app.post("/video/like",async (req, res) => {
+
+app.post("/video/like", async (req, res) => {
 console.log("like")
 await base.collection("Post").updateOne({_id:ObjectID(req.body.video)},{$inc:{likes:1}})
 res.send("exitoso");
@@ -121,18 +121,7 @@ const resolvers =  {
 
 
         },
-        GetReals :  ()=>{
 
-
-            //  return [{name:"josua"},{name:"papito"}]
-            return base.collection("Post").find({type:'Reals'}).toArray();
-            
-            
-            
-            
-            
-            
-            },
 
 
                
@@ -155,11 +144,11 @@ const resolvers =  {
                 },
                 
                 
-                GetReals : async ()=>{
+                GetReals : async (_,{page,limit})=>{
                 
                 
                 
-                    return base.collection("Post").find({type:'Reals'}).toArray();
+                    return await getVideosPagination(page,limit);
                     
                     
                     
@@ -292,7 +281,7 @@ const resolvers =  {
 
                                            try{
 
-                                      await base.collection("Post").insertOne({type:tipo,src:`http://192.168.1.109:5000/${fileUrl}`,description:text,likes:[],coments:[]})
+                                      await base.collection("Post").insertOne({type:tipo,src:`/${fileUrl}`,description:text,likes:[],coments:[]})
                                         }catch{
 
 

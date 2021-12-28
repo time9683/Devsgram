@@ -39,7 +39,7 @@ GetUser(id: String) : User
 
 
 
-GetReals : [Post]
+GetReals(page:Int,limit:Int) : [Post]
 getOneReal(_id: String) : Post
 
 }

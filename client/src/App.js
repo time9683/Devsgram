@@ -35,12 +35,29 @@ import {
 import { createUploadLink } from 'apollo-upload-client';
 
 
-
-
+//recover host server from env 
+const host = process.env.REACT_APP_HOST;
 const client = new ApolloClient({
   // uri: 'http://192.168.1.105:4000',
-  cache: new InMemoryCache(),
-  link: createUploadLink({uri:'http://192.168.1.109:5000/graphql'})
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          GetReals: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          }
+        }
+      }
+    }
+  }),
+  link: createUploadLink({uri:`http://${host}:5000/graphql`})
 });
 
 
@@ -68,7 +85,7 @@ console.log('leno')
 let query = JSON.stringify({query:`{ Vauth(Token:"${authToken}"){ status } }`});
 
 
-fetch("http://192.168.1.109:5000/graphql",{method:"POST",headers:{"Content-Type": "application/json"},body:query}).then( res => { 
+fetch(`http://${host}:5000/graphql`,{method:"POST",headers:{"Content-Type": "application/json"},body:query}).then( res => { 
 
 res.json().then( data =>  { 
   

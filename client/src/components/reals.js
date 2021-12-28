@@ -12,12 +12,16 @@ import flechita from "./flecha.svg";
 import hearfill from "./hear_fill.svg";
 import hearfillG from "./hear_fillG.svg";
 import perfil2 from "./perfil.svg";
+import poster from "./negro.jpg";
 
 import { gql, useQuery, useMutation } from "@apollo/client";
 
+//recove host from enviroment
+const host = process.env.REACT_APP_HOST;
+
 const query = gql`
-  query {
-    GetReals {
+  query  GetReals($page:Int,$limit:Int) {
+    GetReals(page:$page,limit:$limit) {
       src
       _id
       likes {
@@ -30,13 +34,60 @@ const query = gql`
   }
 `;
 
+
+
+//make a hook that detect user is 100px to the end of the page with  intersetionObserver
+const useIntersectionObserver = (root,callback,externalRef) => {
+  const ref = useRef();
+  useEffect(() => {
+    const element =  externalRef ?   externalRef.current :   ref.current;
+
+ 
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        callback();
+      }
+    },{
+      root,
+      rootMargin: RealsTopixel(5) + 'px'
+    });
+    if (element) {
+      observer.observe(element);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, [externalRef,ref]);
+  return ref;
+};
+
+
 // const  graphqlQuery = async (query) => {
 
 // return   await (await fetch("http://192.168.1.110:4000/graphql",{method:"POST",headers:{"Content-Type": "application/json"},body:JSON.stringify(query)})).json();
 
 // }
 
+
+const RealsTopixel = (amount) =>{
+
+let screenHeight = window.innerHeight;
+//heigth the margin is 90% of the screen
+let margin = screenHeight * 0.9;
+
+
+
+return amount * margin;
+
+
+}
+
 var obersevador = new IntersectionObserver(
+
+
+
+
   (entradas, _) => {
     entradas.forEach((en) => {
       if (en.isIntersecting) {
@@ -55,6 +106,8 @@ export const Reals = () => {
   const [ViewComents, Vactive] = useState(false);
   const [view, setView] = useState();
 
+
+
   useEffect(() => {}, []);
 
   const SwichtComents = (id) => {
@@ -68,56 +121,62 @@ export const Reals = () => {
       Vactive(true);
     }
   };
-  // // alert(ViewComents)
 
-  // if(id){
-  //   console.log(id);
-  // graphqlQuery({query:`{getOneReal(_id:"${id}"){ coments{ ref text}}}`}).then(x=>{
 
-  //   // console.log(x.data.getOneReal.coments);
-  // if(x.data.getOneReal.coments){
-  //   console.log(x.data.getOneReal.coments);
-  //   setComents(x.data.getOneReal.coments)
-  // }else{
-
-  // setComents([]);
-
-  // }
-
-  // })
-
-  // }
-
-  // if(ViewComents === true){
-
-  //   Vactive(false)
-
-  // }else{
-  //   Vactive(true)
-
-  // }
-
-  // };
-
+  const rootRef = useRef();
   return (
     <div>
       <div
+         ref={rootRef}
         className={ViewComents === false ? "container" : "container preview"}
       >
-        <Display handleC={SwichtComents} />
+        <Display handleC={SwichtComents}  rooRef={rootRef}/>
       </div>
 
       {ViewComents === false ? (
         <Navbar />
+        
       ) : (
         <Comentarios _id={view} handleCommnets={SwichtComents} />
       )}
+
+     
     </div>
   );
 };
 
 const Display = (props) => {
-  const { loading, error, data } = useQuery(query, { pollInterval: 500 });
+  const { loading, error, data  , fetchMore} = useQuery(query, {variables:{page:0,limit:10}});
+const [page,setPage] = useState(0);
+
+
+const externalRef = useRef();
+const ref = useIntersectionObserver(props.rooRef.current,()=>  {setPage((page)=> page +1 )},loading ? null : externalRef);
+
+
+useEffect(() => {
+
+ 
+  if(data && page === 0){
+    let numberOfvideo = data.GetReals.length;
+    let pageOfvideo = Math.ceil(numberOfvideo/5);
+    setPage(pageOfvideo);
+    console.log('chache:',page)
+  }
+
+} ,[]);
+
+
+
+
+useEffect(() => {
+  console.log("fech:",page)
+  if(page !== 0 ){
+  fetchMore({variables:{page}})
+  }
+}, [page]);
+
+
 
   if (loading) {
     return (
@@ -153,17 +212,26 @@ const Display = (props) => {
     );
   }
 
-  return data.GetReals.map((vide) => (
+  return  <>
+  {
+  data.GetReals.map((vide) => (
     <Video
       ComentsCan={vide.coments}
       status={false}
       key={vide._id}
-      src={vide.src}
+      src={`http://${host}:5000${vide.src}`}
       likes={vide.likes}
       id={vide._id}
       handleCommnets={props.handleC}
     />
-  ));
+  ))
+}
+  
+   
+   <div id="visor"  ref={externalRef}></div>
+  
+  </>
+  
 };
 
 const Tolike = gql`
@@ -188,6 +256,15 @@ const Video = (props) => {
   const [dislikeTo] = useMutation(dislike);
 
   const [Melike, playLike] = useState(false);
+
+//isloaing state
+  const [isload, setLoading] = useState(true);
+
+useEffect(() => { 
+
+console.log(isload)
+
+},[isload])
 
   let grayhear;
 
@@ -226,6 +303,9 @@ const Video = (props) => {
     obersevador.observe(Ev.current);
   }, []);
 
+
+
+
   const like = () => {
     if (!Melike) {
       LikeTo({
@@ -241,8 +321,6 @@ const Video = (props) => {
   };
 
   const plays = (e) => {
-    console.log(Ev);
-
     if (e.target.paused) {
       e.target.play();
       // playing(false)
@@ -256,6 +334,8 @@ const Video = (props) => {
     return likes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+
+
   return (
     <div className="container-video">
       <div className="atributos">
@@ -263,8 +343,7 @@ const Video = (props) => {
           <img
             src={Melike == true ? hearfill : hear}
             alt="likes icon"
-            className="hear"
-          />
+            className="hear" />
           <p style={{ color: "white" }}>{commas(props.likes.length)}</p>
         </div>
 
@@ -272,7 +351,7 @@ const Video = (props) => {
           className="atributo"
           onClick={() => {
             props.handleCommnets(props.id);
-          }}
+          } }
         >
           <img src={burble} className="hear" alt="comments icon" />
           <p style={{ color: "white" }}>
@@ -290,17 +369,32 @@ const Video = (props) => {
       </div>
 
       {grayhear}
+      {/* evento mientras descarga los recursos set loading true*/}
+
+
+      <div  className="spinner-loadder" style={{display : isload ? "flex" : 'none'}} >
+
+      <div  className="spinner"></div>
+
+      </div>
+
 
       <video
+
+         style={{filter : isload ? "blur(5px)" : "none"}}
         id="video"
         loop={true}
+        poster={poster}
         className="video"
         onDoubleClick={like}
         src={props.src}
         onClick={plays}
-        ref={Ev}
-      />
-    </div>
+        ref={Ev} 
+         onContextMenu={ e => e.preventDefault()}
+            onCanPlay={() =>  setLoading(false)}   
+            onWaiting={() => setLoading(true)}
+        />
+    </div>   
   );
 };
 
@@ -531,3 +625,5 @@ username = data.GetUser.name
     </div>
   );
 };
+
+

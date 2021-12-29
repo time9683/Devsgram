@@ -1,10 +1,21 @@
 import React,{useState,useEffect,useRef} from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams,withRouter } from 'react-router-dom'
 import './historyBar.css'
 import { useQuery, gql } from '@apollo/client'
-export const HistoryElement = ({ img, username }) => {
+import send  from './../send.svg'
+
+
+const RealsTopixel = (amount) => {
+  const screenHeight = window.innerHeight
+  // heigth the margin is 90% of the screen
+  const margin = screenHeight * 0.9
+
+  return amount * margin
+}
+
+ export const HistoryElement = ({ img, username,id }) => {
   return (
-        <Link to={`/his/${username}`}>
+        <Link to={`/his/${id}`}>
         <div className='barHis-elem'>
              <img className='barHis-img' src={img} className="barHis-img" alt=""/>
                 <p className="barHis-username">{username}</p>
@@ -26,7 +37,7 @@ query GetHistoryUsers {
         }
         Users {
 
-            Id
+           _id
             name
         }
     }
@@ -52,8 +63,7 @@ const obersevador = new IntersectionObserver(
 
 
 
-export const VHistory = () => {
-  const { id } = useParams()
+ const VHistory = ({history}) => {   
   const { loading, error, data } = useQuery(QueryForHistory)
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
@@ -65,9 +75,11 @@ export const VHistory = () => {
     acc[cur.ref].push(cur)
     return acc
   }, {})
-  console.log(videos)
 
 
+
+
+  let limite = Object.values(videos).length
 
 
 
@@ -76,7 +88,7 @@ export const VHistory = () => {
               
             <div className='his_Display'>
                
-               {Object.values(videos).map(his => <VideoHis  his={his} />)}
+               {Object.entries(videos).map((his,index) => <VideoHis  history={history} key={index} position={index}  GloabalLimit={limite}  his={his} />)}
               
               
               
@@ -85,8 +97,8 @@ export const VHistory = () => {
 
        <form  className='his-send'>
 
-         <input   type="text" />
-          <button></button>  
+         <input   placeholder='Enviar un mensaje' className='input_send' type="text" />
+         <input type="image" className='input_button' src={send}/>
        </form>
        </div>
 
@@ -103,9 +115,9 @@ export const VHistory = () => {
 
 
 
-const VideoHis = ({his}) => {
-
-  const [videos, setVideos] = useState(his)
+const VideoHis = ({his,position, GloabalLimit,history}) => {
+  const { id } = useParams()
+  const [videos, setVideos] = useState(his[1])
   const [video, setVideo] = useState(videos[0])
  const [porcentaje,setPorcentaje] = useState(0)
 
@@ -120,6 +132,18 @@ const VideoHis = ({his}) => {
   useEffect(() => {
     obersevador.observe(Ev.current)
   }, [])
+
+//create a useeffect to read the url and scroll to the video correctly
+  useEffect(() => {
+
+    if (his[0] === id) {
+      let scrol =   RealsTopixel(position)
+      document.querySelector('.his_Display').scrollTo(scrol,0)
+          
+  
+    }
+  }, [videos])
+
 
 
 
@@ -136,6 +160,12 @@ let min = 0
 if (boleano) {
    //if the indexActual is the last, return
   if (indexActual === limit - 1) {
+
+    if(position === GloabalLimit - 1){
+    //redirect to home
+    history.push("/home")
+     
+    }
       scroll()
   }
   //if the indexActual is not the last, return the next video
@@ -147,8 +177,8 @@ if (boleano) {
 else {
   //if the indexActual is the first, return the funcion
   if (indexActual === min) {
-    // return
-  }
+     scroll(false)
+    }
   //if the indexActual is not the first, return the previous video
   else {
     setVideo(videos[indexActual - 1])
@@ -158,10 +188,17 @@ else {
   }
 
   //if  are in the last video,scroll 100vw
-  const scroll = () => {
+  const scroll = (postive = true) => {
     if (video.id === videos[videos.length - 1].id) {
-     
+  
       let sceenWidth = window.innerWidth
+
+
+      if(!postive){
+
+    sceenWidth =  -sceenWidth;
+        
+      }
       document.querySelector('.his_Display').scrollTo(sceenWidth, 0)
     }
   }
@@ -170,6 +207,35 @@ else {
 //recove the host from then enviroment
 const host = process.env.REACT_APP_HOST
 
+const pauseOplay = (e)=>{
+
+
+if(e.target.paused){
+
+
+e.target.play()
+
+
+
+}else{
+
+
+e.target.pause()
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
@@ -179,7 +245,7 @@ const host = process.env.REACT_APP_HOST
         <div className='his-hh'>
           <Barras  totalIndex={videos.length} porcentaje={porcentaje}   index={videos.findIndex(his => his._id === video._id)}  />
       <div  onClick={()=>ChangeVideo(false)} style={{height:"90vh",width:"33%",position:"absolute",left:'0',zIndex:'1'}} ></div>
-     <video   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className='video-his' src={`http://${host}:5000/${video.src}`}/>
+     <video   onContextMenu={(e)=>{e.preventDefault()}}  onTouchStart={pauseOplay} onTouchEnd={pauseOplay}   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className='video-his' src={`http://${host}:5000/${video.src}`}/>
      <div onClick={()=>ChangeVideo(true)} style={{height:"90vh",width:"33%",position:"absolute",right:"0",zIndex:'1',top:'0' }} ></div>
 
      </div>
@@ -244,3 +310,7 @@ const Barra = ({porcetaje,active}) => {
     <progress className='indicator' max='100'    value={  active === "true" ?  '100'   : porcetaje.toString()}></progress>
   )
 }
+
+
+const VisorHistory = withRouter(VHistory)
+export  { VisorHistory  } 

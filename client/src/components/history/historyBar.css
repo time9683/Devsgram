@@ -63,7 +63,7 @@ background-color: black;
     transition: all 1s;
 overflow-x: scroll;
 overflow-y: hidden;
-height: 90vh;
+height: 84vh;
 width: 100vw;
 display: flex;
 scroll-snap-type: x mandatory;
@@ -74,6 +74,8 @@ scroll-snap-type: x mandatory;
 height: 10vh;
 background-color: black;
 display: flex;
+justify-content: start;
+gap: 10px;
 
 }
 
@@ -82,6 +84,7 @@ scroll-snap-align: start;
 
 
 width: 100vw;
+/* height: 90vh; */
 /* aspect-ratio: 16/9; */
 
 
@@ -122,4 +125,34 @@ z-index: 3;
 /* the color the progres value is white in the progress  */
 progress::-webkit-progress-value {
     background: white;
+}
+
+
+
+.input_send{
+width: 300px;
+margin-left: 10px;
+background: transparent;
+color: white;
+padding: 10px;
+border : 1px solid rgb(158, 156, 156);
+/* margin:2px; */
+border-radius: 10px;
+height: 40px;
+
+
+}
+
+
+.input_button{
+
+width: 35px;
+height: 35px;
+
+
+}
+
+.His-container{
+overflow-y:hidden ;
+
 }

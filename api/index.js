@@ -119,10 +119,10 @@ const resolvers =  {
                //create a array with the name of the user has Post
                 let  UsersPost = hashistory.map(post => {  
                      let  user =  Users.find(user => user._id.toString() === post.ref.toString());
-                 return {    name:user.name,id:user._id,     }
+                 return {    name:user.name,_id:user._id,     }
                                                         })
                  //delete repeated users
-                    let  FilterUsers = UsersPost.filter((item,index) => UsersPost.findIndex(item2 => item2.id === item.id) === index)
+                    let  FilterUsers = UsersPost.filter((item,index) => UsersPost.findIndex(item2 => item2._id === item._id) === index)
                 return {historys:hashistory,Users : FilterUsers}
             
                 
@@ -269,7 +269,7 @@ const resolvers =  {
                                     if(User.password === password){
                                         payload = { check:true,email:email,_id:User._id}
                                     const token =   jwt.sign(payload,clave,{expiresIn:1440})
-                                    return {status: 'success',Token:token,Id:User._id};
+                                    return {status: 'success',Token:token,_id:User._id};
                 
                                     }else{
                                 

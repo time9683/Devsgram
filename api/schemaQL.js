@@ -57,7 +57,7 @@ type auth {
 status : String
 Token : String
 email : String
-Id : String,
+_id : String,
 }
 
 
@@ -105,7 +105,7 @@ mensaje:String
 type User{
 
 "identificador unico"
-Id: ID
+_id: ID
 "nombre del suario"
 name : String
 email : String

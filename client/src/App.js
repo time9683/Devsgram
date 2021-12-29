@@ -25,7 +25,7 @@ import {
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { createUploadLink } from 'apollo-upload-client'
-import { VHistory } from './components/history/history'
+import { VisorHistory } from './components/history/history'
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -85,7 +85,7 @@ const App = () => {
 
 <Route path='/his/:id' >
 
-<VHistory/>
+<VisorHistory/>
 
 </Route>
 

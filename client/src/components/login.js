@@ -36,7 +36,7 @@ mutation auth($email:String,$password:String){
   Auth(email: $email, password: $password) {
      status
      Token
-     Id
+    _id
   }
 }
 `
@@ -62,7 +62,7 @@ export const LoginIn = (props) => {
     console.log(data.Auth.Token)
 
     localStorage.setItem('token', data.Auth.Token)
-    localStorage.setItem('ID_A', data.Auth.Id)
+    localStorage.setItem('ID_A', data.Auth._id)
 
     if (data.Auth.status == 'success') {
       props.auth(true)

@@ -308,7 +308,7 @@ const Video = (props) => {
             src={Melike == true ? hearfill : hear}
             alt="likes icon"
             className="hear" />
-          <p style={{ color: 'white' }}>{commas(props.likes.length)}</p>
+          <p style={{ color: 'white' }}>{commas(props?.likes?.length)}</p>
         </div>
 
         <div

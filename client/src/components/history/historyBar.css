@@ -58,7 +58,8 @@ background-color: black;
 
 }
 
-.Display{
+.his_Display{
+    scroll-behavior: smooth;
     transition: all 1s;
 overflow-x: scroll;
 overflow-y: hidden;
@@ -92,4 +93,33 @@ width: 100vw;
 position: relative;
 
 
+}
+
+
+.indicator{
+ background-color: gray;
+height: 2px;
+border-radius: 5px;
+
+
+}
+
+
+
+
+.indicadores{
+    overflow: hidden;
+ gap: 5px;
+    padding: 10px;
+width: 100vw;
+display: flex;
+justify-content: space-evenly;
+/* top: 10px; */
+position: absolute;
+z-index: 3;
+}
+
+/* the color the progres value is white in the progress  */
+progress::-webkit-progress-value {
+    background: white;
 }

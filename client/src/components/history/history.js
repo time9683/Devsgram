@@ -74,7 +74,7 @@ export const VHistory = () => {
   return (
         <div className='His-container'>
               
-            <div className='Display'>
+            <div className='his_Display'>
                
                {Object.values(videos).map(his => <VideoHis  his={his} />)}
               
@@ -107,7 +107,7 @@ const VideoHis = ({his}) => {
 
   const [videos, setVideos] = useState(his)
   const [video, setVideo] = useState(videos[0])
-
+ const [porcentaje,setPorcentaje] = useState(0)
 
 
 
@@ -128,7 +128,7 @@ const VideoHis = ({his}) => {
 //create the funcion  the slider videos
   const ChangeVideo = (boleano) => {
 
-let indexActual = videos.findIndex(his => his.id === video.id)
+let indexActual = videos.findIndex(his => his._id === video._id)
 let limit = videos.length
 let min = 0
 
@@ -136,7 +136,7 @@ let min = 0
 if (boleano) {
    //if the indexActual is the last, return
   if (indexActual === limit - 1) {
-     return
+      scroll()
   }
   //if the indexActual is not the last, return the next video
   else {
@@ -147,7 +147,7 @@ if (boleano) {
 else {
   //if the indexActual is the first, return the funcion
   if (indexActual === min) {
-    return
+    // return
   }
   //if the indexActual is not the first, return the previous video
   else {
@@ -162,7 +162,7 @@ else {
     if (video.id === videos[videos.length - 1].id) {
      
       let sceenWidth = window.innerWidth
-      document.querySelector('.Display').scrollTo(sceenWidth, 0)
+      document.querySelector('.his_Display').scrollTo(sceenWidth, 0)
     }
   }
 
@@ -173,12 +173,14 @@ const host = process.env.REACT_APP_HOST
 
 
 
+
   return (
   <>
         <div className='his-hh'>
-      <div  onClick={()=>ChangeVideo(false)} style={{height:"90vh",width:"33%",position:"absolute",left:'0'}} ></div>
-     <video  ref={Ev}  onEnded={scroll}   className='video-his' src={`http://${host}:5000/${video.src}`}/>
-     <div onClick={()=>ChangeVideo(true)} style={{height:"90vh",width:"33%",position:"absolute",right:"0" }} ></div>
+          <Barras  totalIndex={videos.length} porcentaje={porcentaje}   index={videos.findIndex(his => his._id === video._id)}  />
+      <div  onClick={()=>ChangeVideo(false)} style={{height:"90vh",width:"33%",position:"absolute",left:'0',zIndex:'1'}} ></div>
+     <video   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className='video-his' src={`http://${host}:5000/${video.src}`}/>
+     <div onClick={()=>ChangeVideo(true)} style={{height:"90vh",width:"33%",position:"absolute",right:"0",zIndex:'1',top:'0' }} ></div>
 
      </div>
    </>
@@ -194,3 +196,51 @@ const host = process.env.REACT_APP_HOST
 
 }
 
+
+
+
+const Barras = ({porcentaje,index,totalIndex}) => {
+
+
+
+let barritas = []
+
+
+
+
+  for(let i=0; i<totalIndex; i++){
+
+    barritas.push(<Barra key={i} porcetaje={index === i ?  porcentaje : 0  } active={i <  index ? 'true' : 'false' }/>)
+
+
+
+  }
+
+  
+
+
+
+
+
+
+return (
+
+<div className='indicadores'>
+          {barritas}
+          </div>
+
+
+)
+
+
+
+
+}
+
+
+
+const Barra = ({porcetaje,active}) => {
+  return (
+    <progress className='indicator' max='100'    value={  active === "true" ?  '100'   : porcetaje.toString()}></progress>
+  )
+}

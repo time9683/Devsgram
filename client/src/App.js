@@ -29,7 +29,7 @@ import { Resgistre, LoginIn } from 'src/components/login/login'
 import { Home } from 'src/components/home/home'
 import { Reals } from 'src/components/reals/reals'
 import { Search } from 'src/components/search/search'
-// import { Acccount } from './components/perfil'
+import { Acccount } from 'src/components/perfil/perfil'
 // import { Config } from './components/PerfilConfig'
 import { PostCreate } from 'src/components/postcreate/PostCreates'
 
@@ -147,10 +147,10 @@ localStorage.setItem('theme',theme)
 
 </Route>
 
-{/* <Route path="/cuenta">
+<Route path="/cuenta">
 <Acccount/>
 
-</Route> */}
+</Route>
 
 {/* <Route path="/perfil">
 <Config/>

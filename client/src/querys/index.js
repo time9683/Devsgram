@@ -83,6 +83,7 @@ query GetHistoryUsers {
            _id
             name
         }
+        code
     }
 }
 `
@@ -100,3 +101,16 @@ mutation fileSubmit($file:Upload,$text:String,$tipe:String) {
   }
 
 }`
+
+
+export const GetUsers = gql`
+
+ query GetUsers($name:String) {
+  GetUsers(name:$name) {
+    _id
+    name
+  }
+ }
+`
+
+

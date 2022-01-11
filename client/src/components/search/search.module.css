@@ -32,29 +32,48 @@ outline: none;
 .searchImg{
 
 width:20px;
+height:20px;
 position: absolute;
 left:30px;
 top: 18px;
 }
 
-.viewP{
-
-width:131px;
-border: 2px gray solid;
-height:131px;
-}
-.viewImg{
-
-width:100%;
-height:100%;
-}
 .display{
     min-height: calc(100vh - 50px - 50px);
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     padding-bottom: 60px;
     align-content: flex-start;
 }
+
+
+
+
+
+
+
+.Recommended{
+
+background-color: black;
+margin: 0;
+position: absolute;
+height: 60vh;
+width: 100vw;
+padding: 10px;
+
+}
+
+
+
+.item{
+
+color: white;
+
+}
+
+
 
 
 .dark{
@@ -66,5 +85,45 @@ border-color: rgb(68, 66, 66);
 
 
 
+
+}
+
+
+.null{
+
+ display:  none ;
+
+}
+
+
+.move{
+
+    left: 55px;
+    top: 20px;
+
+
+}
+
+.moveBar{
+
+margin-left: 40px;
+
+}
+
+
+
+.arrow{
+
+position: absolute;
+margin: 0;
+top: 10px;
+transform: rotate(180deg);
+
+
+}
+
+.arrow:hover{
+
+    cursor: pointer;
 
 }

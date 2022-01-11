@@ -1,18 +1,18 @@
 import React,{useState}  from "react";
-import { Navbar } from "./home";
-// import puntos from "./puntos.svg";
-// import flecha  from "./flecha.svg";
-// import perfil from "./perfil.jpg"
-import "./perfiil.css"
+import { Navbar } from "src/components/home/home";
+import Puntos from "src/assets/svgs/points";
+import Flecha  from "src/assets/svgs/flecha";
+import perfil from "src/assets/perfil.jpg"
+import  style from "./perfil.module.css"
 
-// import real from './video.svg'
-// import po from './pos.svg'
-// import refe from './ref.svg'
-
-
+import Real from 'src/assets/svgs/video'
+import Po from 'src/assets/svgs/pos'
+import Refe from 'src/assets/svgs/ref'
 
 
 
+
+import {ViewPost} from 'src/components/post/Post'
 
 
 
@@ -41,25 +41,25 @@ active(name)
 
 return (
 <div >
-<div className="TopBar">
+<div className={style.TopBar}>
 
-<div className="TopBar-header"> 
-<img src={flecha} className="flecha" ></img>
+<div className={style.TopBarHeader}> 
+<Flecha  width={40}  height={40} className={style.flecha} />
 
 <p>pedrito</p>
 </div>
-<img src={puntos}  className="puntos"></img>
+<Puntos  width={40}  height={40}  className={style.puntos}/>
 </div>
 
 
-<div className="acccount-info">
+<div className={style.acccountInfo}>
 
-<img src={perfil}  className="img-perfil"></img>
+<img src={perfil}  className={style.imgPerfil}></img>
 
 
-<div className="account-stats">
+<div className={style.accountStats}>
 
-<div className="stast">
+<div className={style.stast}>
 <p>
 56
 </p>
@@ -67,13 +67,13 @@ return (
 </div>
 
 
-<div className="stast"><p>
+<div className={style.stast}><p>
 7,300
 </p>
 <p>seguidores</p></div>
 
 
-<div className="stast"><p>
+<div className={style.stast}><p>
 3,343
 </p>
 <p>seguidos</p></div>
@@ -85,35 +85,35 @@ return (
 
 
 </div>
-<div className="description">
+<div className={style.description}>
 <p>perito</p>
-<p className='pann'>me como los mocos</p>
+<p className={style.pann}>me como los mocos</p>
 <p>feliz de la vida</p>
 
-<div className="actions">
+<div className={style.actions}>
 
 
-<button className="btn btn-1">Seguir</button>
-<button  className="btn  btn-2">Mensaje</button>
-<button className="btn-3">^</button>
+<button className={style.btn + ' ' + style.btn1}>Seguir</button>
+<button  className={style.btn + ' ' +  style.btn2}>Mensaje</button>
+<button className={style.btn3}>^</button>
 </div>
 </div>
 
-<div className="subNavBar">
+<div className={style.subNavBar}>
 
-<ul class="nav_list">
+<ul class={style.navList}>
 
 
-<li onClick={() => linkto('post')}   className={Isactive == 'post' ? 'navRef' : ''}>
-<img src={po} className='icon'></img>
+<li onClick={() => linkto('post')}   className={Isactive == 'post' ? style.navRef  : ''}>
+<Po  width={40}  height={40} className={style.icon}/>
 </li>
 
-<li onClick={() => linkto('reals')}   className={Isactive == 'reals' ? 'navRef' : ''}>
-    <img src={real} className='icon'></img>
+<li onClick={() => linkto('reals')}   className={Isactive == 'reals' ? style.navRef : ''}>
+    <Real fill={'white'}   width={40}  height={40} className={style.icon}/>
 </li>
 
-<li onClick={() => linkto('ref')} className={Isactive == 'ref' ? 'navRef' : ''}>
-<img src={refe} className='icon'></img> 
+<li onClick={() => linkto('ref')} className={Isactive == 'ref' ? style.navRef : ''}>
+<Refe  width={40}  height={40} className={style.icon}/>
 </li>
 
 
@@ -127,7 +127,7 @@ return (
 </div>
 
 
-<div className="Display_posts">
+<div className={style.DisplayPosts}>
 
 {
 
@@ -278,22 +278,3 @@ const ViewReals = () =>{
 
 
 
-const ViewPost = () =>{
-
-
-
-
-
-
-
-    return(
-    
-    <div className="viewP">
-    
-    <img src={perfil} className="view-img" ></img>
-    
-    </div>
-    
-    
-    )
-    }

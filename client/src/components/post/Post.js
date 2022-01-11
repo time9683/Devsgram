@@ -10,7 +10,7 @@ import Burble from 'src/assets/svgs/burble'
 import Send from 'src/assets/svgs/send'
 import Save from 'src/assets/svgs/save'
 
-
+import perfil from 'src/assets/perfil.jpg'
 
 
 import  style from './post.module.css'
@@ -94,3 +94,27 @@ const  time = clsx({[style.time]:true,[style.light]:theme==='light'})
 
     )
 }
+
+
+
+
+
+export const ViewPost = () =>{
+
+    const {theme} = useContext(ThemeConsumer);
+    
+    const viewP = clsx({[style.viewP]: true,[style.dark]: theme !== 'light'})
+    
+    
+    
+    return(
+    
+    <div className={viewP}>
+    
+    <img src={perfil} className={style.viewImg} ></img>
+    
+    </div>
+    
+    
+    )
+    }

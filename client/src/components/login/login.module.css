@@ -3,7 +3,7 @@
     text-align: center;
     
     border: none;
-    background-color: white;
+    background-color:transparent;
     
     margin-bottom: 20px;
     
@@ -172,133 +172,194 @@ transition: all 2s;
     }
 
 
-    .containerLink{
-
-        transition: all 2s;
-     padding: 10px;
-     text-align: center;
-margin: 10px;
-
-    }
 
 
-
-
-    .containerLinkLight{
-       width: 350px;
-        background-color: white;
-        border: 1px solid rgb(204, 202, 202);
-        padding: 15px;
-        border-radius: 4px;
-
-    }
-
-
-    .containerLinkDark{
-        width:350px;
-        color: white;
-        background-color: black;
-    border:   1px solid rgb(62 60 60);
-    padding: 15px;
-    border-radius: 4px;
-
-
-
-
-
-    }
-
-   .ContainerLight{
-
-
-   background-color: #fafafa;
-
-   }
-
-
-
-   .ContainerDark{
-  
-    background-color: rgb(18,18,18);
+    .ContainerLight{
     
+    
+        background-color: #fafafa;
+     
+        }
+     
+     
+     
+        .ContainerDark{
+       
+         background-color: rgb(18,18,18);
+         
+         }
+
+
+
+         .titleDark{
+    
+    
+            color: rgb(63, 62, 62);
+         
+             }
+
+             .InputFormDark{
+    
+                background-color: rgb(36, 35, 35);
+              border: 1px solid rgb(78, 78, 78);
+               }
+           
+
+
+               .footerDark{
+    
+                color: white;
+           
+               }
+           
+               .selectorIdiomaDark{
+           
+               color: white;
+               background-color: transparent;
+           
+           
+           
+               }
+
+
+
+
+               .containerLinkDark{
+color: white;
+               }
+
+
+    .Image{
+
+        display: none;
+    }
+
+
+    .containerInfo{
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+
+
     }
 
 
 
 
-    .ContainerFormLight{
-
-
-background-color: white;
-border: 1px solid rgb(204, 202, 202);
-padding: 15px;
-border-radius: 4px;
-
-    }
-
-
-
-    .ContainerFormDark{
-
-   background-color: black;
-    border:   1px solid rgb(62 60 60);
-    padding: 15px;
-    border-radius: 4px;
-
-
-    }
-
-
-    .titleDark{
-
-
-   color: rgb(63, 62, 62);
-
-    }
-
-
-    .InputFormDark{
-
-     background-color: rgb(36, 35, 35);
-   border: 1px solid rgb(78, 78, 78);
-    }
-
-
-    .footerDark{
-
-     color: white;
-
-    }
-
-    .selectorIdiomaDark{
-
-    color: white;
-    background-color: transparent;
-
-
-
-    }
-
+             /*  media querys*/
 
     @media screen and (min-width: 550px) {
 
-       
-    .containerForm{
 
-   
+    
+
+        .phoneI{
+           position: absolute;
+           left: 150px;
+           top: 100px;
+
+        }
+
+        .containerDouble{
+
+        display: flex;
+ align-items: center;
+        justify-content:space-evenly;
+
+        }
 
 
+        .containerLink{
 
-
-    }
-
-
-
-
-
-
-
+            transition: all 2s;
+         padding: 10px;
+         text-align: center;
+    margin: 10px;
+    
+        }
 
 
         
+    
+    
+    
+    
+        .containerLinkLight{
+           width: 350px;
+            background-color: white;
+            border: 1px solid rgb(204, 202, 202);
+            padding: 15px;
+            border-radius: 4px;
+    
+        }
+    
+    
+        .containerLinkDark{
+            width:350px;
+            color: white;
+            background-color: black;
+        border:   1px solid rgb(62 60 60);
+        padding: 15px;
+        border-radius: 4px;
+    
+    
+    
+    
+    
+        }
+    
+  
+    
+    
+    
+    
+        .ContainerFormLight{
+    
+    
+    background-color: white;
+    border: 1px solid rgb(204, 202, 202);
+    padding: 15px;
+    border-radius: 4px;
+    
+        }
+    
+    
+    
+        .ContainerFormDark{
+    
+       background-color: black;
+        border:   1px solid rgb(62 60 60);
+        padding: 15px;
+        border-radius: 4px;
+    
+    
+        }
+    
+    
+     
+    
+    
+   
+    
+
+
+
+.footer{
+    display: none;
+}
+
+        
+    }
+
+
+    @media screen and (min-width: 700px) {
+        
+        .Image{
+            display: block;
+            position: relative;
+     
+             }
     }

@@ -10,6 +10,9 @@ import clsx from 'clsx'
 
 
 import ThemeConsumer from 'src/context/themeContext'
+import phone  from   'src/assets/phone.png'
+import imagephone from 'src/assets/imagenphone.jpg'
+
 
 
 const CreateA = gql`
@@ -116,6 +119,21 @@ const selectorIdioma = clsx({[style.selectorIdioma]:true,[style.selectorIdiomaDa
 </select>
 
 
+
+
+<div className={style.containerDouble}>
+<div className={style.Image}>
+<img   src={phone}></img>
+<img className={style.phoneI} src={imagephone}></img>
+
+
+</div>
+
+
+
+
+
+<div className={style.containerInfo}>
 <div className={ContainerForm}>
 <h1 className={title}>Devsgram</h1>
 
@@ -131,6 +149,8 @@ const selectorIdioma = clsx({[style.selectorIdioma]:true,[style.selectorIdiomaDa
 <p>no tienes cuenta? <Link className={style.setUp} to='/register'>registrate</Link></p>
 </div>
 {info}
+</div>
+</div>
 
 
   <p  onClick={toggleTheme}   className={footer}>From Devsgram</p>
@@ -182,10 +202,25 @@ export const Resgistre = () => {
 
   }
 
-  return (
-<div className={style.Container}>
 
-<select className={style.selectorIdioma}>
+
+
+const {theme ,toggleTheme} = useContext(ThemeConsumer)
+
+  const container = clsx({[style.Container]:true,[style.ContainerLight]:theme=='light',[style.ContainerDark]:theme=='dark'})
+const ContainerForm = clsx({[style.ContainerForm]:true,[style.ContainerFormLight]:theme=='light',[style.ContainerFormDark]:theme=='dark'})
+const containerLink = clsx({[style.containerLink]:true,[style.containerLinkLight]:theme=='light',[style.containerLinkDark]:theme=='dark'})
+const title = clsx({[style.title]:true,[style.titleDark]:theme=='dark'})
+const InputForm = clsx({[style.InputForm]:true,[style.InputFormDark]:theme=='dark'})
+const footer = clsx({[style.footer]:true,[style.footerDark]:theme=='dark'})
+const selectorIdioma = clsx({[style.selectorIdioma]:true,[style.selectorIdiomaDark]:theme=='dark'})
+
+
+
+  return (
+<div className={container}>
+
+<select className={selectorIdioma}>
 <option>español</option>
 <option>ingles</option>
 <option>portugues</option>
@@ -193,13 +228,13 @@ export const Resgistre = () => {
 
 
 
-<div className={style.containerForm}>
-<h1 className={style.title}>Devsgram</h1>
+<div className={ContainerForm}>
+<h1 className={title}>Devsgram</h1>
 
 <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-<input type="text" className={style.InputForm} placeholder="email o telefono" {...register('email')}></input>
-<input type="text" className={style.InputForm} placeholder="Username @example" {...register('username')} ></input>
-<input type="text" className={style.InputForm} placeholder="password" {...register('password')} ></input>
+<input type="text" className={InputForm} placeholder="email o telefono" {...register('email')}></input>
+<input type="text" className={InputForm} placeholder="Username @example" {...register('username')} ></input>
+<input type="text" className={InputForm} placeholder="password" {...register('password')} ></input>
 <p className={style.text}>olvidaste tu contraseña?</p>
 
 <input className={style.btn} onClick={CreateAccuntion} type="submit" value='crear cuenta'></input>
@@ -209,14 +244,14 @@ export const Resgistre = () => {
 
 
 
-<div className={style.containerLink}>
+<div className={containerLink}>
 <p>ya  tienes cuenta? <Link className={style.setUp} to='/'>tengo cuenta</Link></p>
 
 </div>
 
 {result}
 
-<p className={style.footer}>From Devsgram</p>
+<p className={footer}>From Devsgram</p>
 </div>
 
   )

@@ -93,8 +93,9 @@ scroll-snap-type: x mandatory;
 
 
 .hisSend{
+    z-index: 1;
 height: 10vh;
-background-color: black;
+/* background-color: black; */
 display: flex;
 justify-content: start;
 gap: 10px;

@@ -12,6 +12,7 @@ import clsx from 'clsx'
 
 import { RealsTopixel } from 'src/utils/lib'
 import { QueryForHistory } from 'src/querys'
+import { Redirect } from 'react-router-dom'
 
 
 
@@ -57,6 +58,25 @@ const obersevador = new IntersectionObserver(
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 //create a hasmap  that contains the videos of users
+if(data){
+
+if(data.GetHistoryUsers.code == 401){
+
+localStorage.removeItem('token')
+localStorage.removeItem('ID_A')
+
+return <Redirect to="/"  />
+
+
+}
+
+
+}
+
+
+
+
+
   const videos = data.GetHistoryUsers.historys.reduce((acc, cur) => {
     if (!acc[cur.ref]) {
       acc[cur.ref] = []

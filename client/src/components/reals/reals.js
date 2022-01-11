@@ -87,7 +87,7 @@ const container = clsx ({[style.container]:true,[style.dark]:theme !== 'light'})
         ref={rootRef}
         className={ViewComents === false ? container: container +' ' + style.preview }
       >
-        <div  className={ViewComents === false ? style.RealsContainer : style.RealsContainer +' ' + style.preview }>
+        <div  className={ViewComents === false ? style.RealsContainer : style.RealsContainer +' ' + style.previewReals }>
         <Display handleC={SwichtComents} rooRef={rootRef} />
         </div>
       </div>

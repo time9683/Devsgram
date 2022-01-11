@@ -6,6 +6,7 @@
     width: 100vw;
     height:90vh;
     position:relative;
+    text-align: center;
     }
     
     
@@ -62,7 +63,7 @@
     }
     .preview  .video{
     height:200px;
-    width: 100vw;
+    /* width: 100vw; */
     /* background-color:black */
     }
     
@@ -374,6 +375,14 @@ fill:black;
     .preview{
     height: 200px;
     width: 100%;
+    }
+
+    .previewReals{
+
+    width: 112px;
+    height: 200px;
+    margin: auto;
+
     }
 
 }

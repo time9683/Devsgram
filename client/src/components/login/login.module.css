@@ -1,0 +1,304 @@
+
+    .selectorIdioma{
+    text-align: center;
+    
+    border: none;
+    background-color: white;
+    
+    margin-bottom: 20px;
+    
+    }
+    
+    
+    .Container{
+transition: all 2s;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: start;
+height: 100vh;
+width: 100vw;
+
+    
+    }
+    
+    
+
+.ContainerForm{
+height: 382px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    width: 350px;
+
+transition: all 2s;
+
+
+}
+
+    .btn{
+    
+    background-color:rgb(30, 119, 253);
+    border: none;
+    padding: 7px;
+    /* width:250px; */
+    
+    color: white;
+    font-size: 15px;
+    }
+    
+    
+    
+    .InputForm{
+    
+    
+    margin:10px;
+    
+    width:2px;
+    padding:7px;
+    width: 240px;
+    background-color: whitesmoke;
+    border:1px rgb(167, 167, 167) solid;
+    /* border:none */
+    
+    }
+    
+    
+    .text{
+    
+    
+    color:rgb(56, 133, 247);
+    font-size: 14px;
+    margin-left: 100px
+    ;
+    }
+    
+    
+    
+    .setUp{
+    
+    color:rgb(56, 133, 247);
+    
+    
+    
+    
+    
+    
+    
+    }
+    
+    .title{
+    
+    
+        font-family: 'Billabong', sans-serif;
+                                                    
+    
+    
+    font-size: 52px;
+    
+    
+    
+    
+    
+    }
+    
+    
+    .footer{
+    
+    
+    
+    position:absolute;
+    bottom:10px;
+    font-size:18px;
+    font-weight: bold;
+    
+    }
+    
+    
+    .button-disable{
+    
+    
+       background-color:  rgb(69, 125, 209);
+       border: none;
+       padding: 7px;
+       width:250px;
+       
+       color: white;
+       font-size: 15px;
+    
+    
+    }
+    
+    
+    .button_S:active{
+    
+    
+    box-shadow: inset 2px 2px  black;
+    
+    
+    
+    
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    .err-color{
+    
+    color:red;
+    
+    
+    }
+    
+    
+    .ok-color{
+    
+    color:greenyellow;
+    
+    }
+
+
+    .form{
+
+        display: flex; 
+        flex-direction: column;
+
+    }
+
+
+    .containerLink{
+
+        transition: all 2s;
+     padding: 10px;
+     text-align: center;
+margin: 10px;
+
+    }
+
+
+
+
+    .containerLinkLight{
+       width: 350px;
+        background-color: white;
+        border: 1px solid rgb(204, 202, 202);
+        padding: 15px;
+        border-radius: 4px;
+
+    }
+
+
+    .containerLinkDark{
+        width:350px;
+        color: white;
+        background-color: black;
+    border:   1px solid rgb(62 60 60);
+    padding: 15px;
+    border-radius: 4px;
+
+
+
+
+
+    }
+
+   .ContainerLight{
+
+
+   background-color: #fafafa;
+
+   }
+
+
+
+   .ContainerDark{
+  
+    background-color: rgb(18,18,18);
+    
+    }
+
+
+
+
+    .ContainerFormLight{
+
+
+background-color: white;
+border: 1px solid rgb(204, 202, 202);
+padding: 15px;
+border-radius: 4px;
+
+    }
+
+
+
+    .ContainerFormDark{
+
+   background-color: black;
+    border:   1px solid rgb(62 60 60);
+    padding: 15px;
+    border-radius: 4px;
+
+
+    }
+
+
+    .titleDark{
+
+
+   color: rgb(63, 62, 62);
+
+    }
+
+
+    .InputFormDark{
+
+     background-color: rgb(36, 35, 35);
+   border: 1px solid rgb(78, 78, 78);
+    }
+
+
+    .footerDark{
+
+     color: white;
+
+    }
+
+    .selectorIdiomaDark{
+
+    color: white;
+    background-color: transparent;
+
+
+
+    }
+
+
+    @media screen and (min-width: 550px) {
+
+       
+    .containerForm{
+
+   
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+        
+    }

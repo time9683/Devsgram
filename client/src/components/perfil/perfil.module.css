@@ -1,0 +1,178 @@
+.TopBar{
+
+
+    width: 100%;
+    background-color:black;
+    color:white;
+    padding:15px;
+    display:flex;
+    font-weight: bold;
+    font-size: 18px;
+    justify-content: space-between;
+    }
+    
+    
+    
+    
+    .flecha{
+    
+    transform: rotate(180deg);
+    
+    width:30px;
+    margin-right: 20px;
+    }
+    .puntos{
+    
+    
+    
+    width:15px;
+    
+    
+    
+    
+    }
+    .TopBarHeader{
+    
+    display:flex;
+    
+    }
+    
+
+    .imgPerfil{
+    border-radius:50%;
+    width: 100px;;
+    height:100px;
+    
+    /* margin-left: 20px; */
+    }
+    
+    .acccountInfo{
+        background-color:black;
+        color: white;
+    padding-top:  20px;
+    display:flex;
+    justify-content:space-between;
+    
+    }
+
+
+    .accountStats{
+    
+    display:flex;
+    justify-content: space-around;
+    padding-right: 10px;
+    }
+    .stast{
+    
+    font-size: 15px;
+    margin: 5px;
+    
+    text-align: center;
+    margin-top: 20px;
+    }
+    
+    
+    .description{
+        padding-top:20px ;
+    background-color:black;
+    color: white;
+    font-size: 14px;
+    padding-left: 15px;
+    
+    }
+    .pann{
+    
+    color: #666;
+    
+    
+    }
+    
+    .actions{
+    
+    padding: 12px;
+    
+    
+    }
+    
+    .btn1{
+    background-color:rgb(46, 126, 230);
+    border: none;
+    border-radius: 10px;
+    }
+    
+    .btn{
+    color: white;
+    padding: 8px;
+    width:140px;
+    margin:5px;
+    }
+    .btn2{
+    background-color:black;
+    border:  2px #777 solid;
+    border-radius: 10px;
+    
+    }
+    .btn3{
+    
+    
+    width:30px;
+    height:30px;
+    background-color:black;
+    color: white;
+    border:  2px #777 solid;
+    border-radius: 10px;
+    }
+    
+    .navList{
+    padding:0;
+        list-style: none;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin: 0;
+    }
+    
+    .navList li{
+    width:33%;
+    padding:10px;
+    
+    /* width:200px; */
+    }
+    
+    
+    
+    .navRef{
+    
+    border-bottom: 2px solid white;
+    
+    }
+    
+    
+    .subNavBar{
+    background-color:black;
+    
+    
+    }
+    
+    .DisplayPosts{
+    background-color:black;
+    padding-top: 5px;
+    /* display:flex; */
+    /* flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    min-height:50vh;
+    /* height:; */
+    
+    padding-bottom:70px ;
+    }
+    
+    
+    
+    
+    .icon{
+    
+    width:28px;
+    
+    }

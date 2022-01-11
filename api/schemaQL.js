@@ -20,6 +20,7 @@ info : User
 type History {  
     historys: [Post]
 Users: [User]
+code : Int
 
 
 }
@@ -34,6 +35,12 @@ Users: [User]
 
 
 type Query  {
+
+
+
+GetUsers(name:String) : [User]
+
+
 "verifica si el token es valido y retorna cualquier informacion del usuario"
 Vauth(Token : String) :AuthResponse
 

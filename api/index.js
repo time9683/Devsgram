@@ -103,9 +103,14 @@ const resolvers =  {
 
         //create a function with return the names of the users that user is following
            GetHistoryUsers  : async (root,args,context) => {
-               const {id} =  context
+               const {id,code} =  context
                 //  if(id) return   
                 //  console.log(id) 
+                if(code == 401){
+
+                return {code:401}
+
+                }
                  
                UserInfo = await base.collection("Users").findOne({_id:ObjectID(id)});
                followed =  UserInfo.followed;
@@ -123,7 +128,7 @@ const resolvers =  {
                                                         })
                  //delete repeated users
                     let  FilterUsers = UsersPost.filter((item,index) => UsersPost.findIndex(item2 => item2._id === item._id) === index)
-                return {historys:hashistory,Users : FilterUsers}
+                return {historys:hashistory,Users : FilterUsers,code:200}
             
                 
         },
@@ -151,6 +156,13 @@ const resolvers =  {
 
         },
 
+
+
+        //create a funtion that return users   that match the name
+        GetUsers : async (root,{name}) => {
+            const users = await base.collection("Users").find({name:new RegExp(name,"i")}).toArray();
+            return users;
+        },
 
 
                
@@ -381,7 +393,8 @@ const server = new ApolloServer({typeDefs,resolvers,
         }
         return {
             token,
-            id:null
+            id:null,
+            code:401
         }
     
 
@@ -437,3 +450,5 @@ const verify = (token)=>{
     
     return result;
     }
+
+

@@ -6,6 +6,8 @@ import style from  './historyBar.module.css'
 
 import { HistoryElement} from './history'
 import  ThemeConsumer  from 'src/context/themeContext'
+import UserConsumer from 'src/context/UserContext'
+import { Redirect } from 'react-router-dom'
 
 
 
@@ -18,14 +20,33 @@ query GetHistoryUsers {
             _id
             name
         }
+        code
     }
 }
     `
 
 export const HistoriaBar = () => {
   const { loading, error, data } = useQuery(QueryForHistory)
-  
-const {theme} = useContext(ThemeConsumer)
+  const {theme} = useContext(ThemeConsumer)
+  const {setUser} = useContext(UserConsumer)
+if(data){
+console.log(data)
+if(data.GetHistoryUsers.code === 401){
+
+//remove token from localStorage
+localStorage.removeItem('token')
+localStorage.removeItem('ID_A')
+setUser(undefined)
+ return <Redirect  to="/" />
+
+}
+
+
+}
+
+
+
+
 
     const container = clsx({[style.container]:true,[style.dark]:theme !== 'light'})
 

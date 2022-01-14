@@ -1,0 +1,165 @@
+
+.Topbar{
+   
+background-color: white;
+display:flex;
+justify-content: space-between;
+width: 100vw;
+padding: 5px;
+height: 50px;
+}
+
+
+.Title{
+
+    font-family: 'Billabong', sans-serif;
+color: black;
+font-size: 35px;
+margin:auto 0;
+}
+
+
+
+
+.iconsTop{
+
+display: flex;
+width: 150px;
+justify-content:space-between;
+align-items: center;
+}
+
+
+.iconsTop svg{
+width: 25px;
+height: 25px;
+fill: black;
+margin: 10px;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navBar{
+
+position: fixed;
+bottom: 0;
+background-color: rgb(255, 255, 255);
+width: 100vw;
+height: 50px;
+}
+
+
+.navList{
+    margin: auto 0;
+list-style: none;
+display: flex;
+flex-direction:row;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+}
+
+
+
+.navList  svg
+{
+
+width: 30px;
+height: 30px;
+
+
+fill: black;
+
+
+}
+
+
+
+.Display{
+    overflow-y: scroll;
+height: 90vh;
+
+}
+
+
+
+
+
+
+
+.dark{
+background-color: black;
+color: white;
+}
+
+.dark svg{
+
+
+
+fill: white;
+
+
+}
+
+.darktheme{
+
+background-color: rgb(26, 24, 24);
+
+}
+
+
+@media screen and (min-width: 650px){
+    
+
+    .postContainer{
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+        
+        padding-bottom: 40px;
+        }
+        
+        
+      
+
+
+
+
+
+
+
+
+}

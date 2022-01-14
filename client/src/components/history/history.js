@@ -1,48 +1,37 @@
-import React,{useState,useEffect,useRef} from 'react'
+import React,{useState,useEffect,useRef,useContext} from 'react'
 import { Link, useParams,withRouter } from 'react-router-dom'
-import './historyBar.css'
+import  style from './historyBar.module.css'
 import { useQuery, gql } from '@apollo/client'
-import send  from './../send.svg'
+import send  from 'src/assets/send.svg'
 
 
-const RealsTopixel = (amount) => {
-  const screenHeight = window.innerHeight
-  // heigth the margin is 90% of the screen
-  const margin = screenHeight * 0.9
 
-  return amount * margin
-}
+import themeConsumer  from 'src/context/themeContext'
+import clsx from 'clsx'
+
+
+import { RealsTopixel } from 'src/utils/lib'
+import { QueryForHistory } from 'src/querys'
+
+
 
  export const HistoryElement = ({ img, username,id }) => {
+const {theme} = useContext(themeConsumer)
+
+const ElmUSername = clsx(style.Elementusername,{[style.dark]:theme !== 'light'})
+
   return (
         <Link to={`/his/${id}`}>
-        <div className='barHis-elem'>
-             <img className='barHis-img' src={img} className="barHis-img" alt=""/>
-                <p className="barHis-username">{username}</p>
+        <div className={style.Element}>
+             <img src={img} className={style.ElementImage} alt=""/>
+                <p className={ElmUSername}>{username}</p>
         </div>
         </Link>
   )
 }
 
 
-const QueryForHistory = gql`
-query GetHistoryUsers {
-    GetHistoryUsers {
 
-        historys {
-
-             _id
-            src
-            ref
-        }
-        Users {
-
-           _id
-            name
-        }
-    }
-}
-`
 
 
 const obersevador = new IntersectionObserver(
@@ -84,9 +73,9 @@ const obersevador = new IntersectionObserver(
 
 
   return (
-        <div className='His-container'>
+        <div className={style.HisContainer}>
               
-            <div className='his_Display'>
+            <div id='Display'  className={style.hisDisplay}>
                
                {Object.entries(videos).map((his,index) => <VideoHis  history={history} key={index} position={index}  GloabalLimit={limite}  his={his} />)}
               
@@ -95,10 +84,10 @@ const obersevador = new IntersectionObserver(
           </div>
 
 
-       <form  className='his-send'>
+       <form  className={style.hisSend}>
 
-         <input   placeholder='Enviar un mensaje' className='input_send' type="text" />
-         <input type="image" className='input_button' src={send}/>
+         <input   placeholder='Enviar un mensaje' className={style.inputSend} type="text" />
+         <input type="image" className={style.inputButton} src={send}/>
        </form>
        </div>
 
@@ -138,7 +127,7 @@ const VideoHis = ({his,position, GloabalLimit,history}) => {
 
     if (his[0] === id) {
       let scrol =   RealsTopixel(position)
-      document.querySelector('.his_Display').scrollTo(scrol,0)
+      document.querySelector('#Display').scrollTo(scrol,0)
           
   
     }
@@ -191,7 +180,7 @@ else {
   const scroll = (postive = true) => {
     if (video.id === videos[videos.length - 1].id) {
   
-      let sceenWidth = window.innerWidth
+      let sceenWidth = window.innerWidth > 338 ? 338 : window.innerWidth 
 
 
       if(!postive){
@@ -199,7 +188,7 @@ else {
     sceenWidth =  -sceenWidth;
         
       }
-      document.querySelector('.his_Display').scrollTo(sceenWidth, 0)
+      document.querySelector('#Display').scrollTo(sceenWidth, 0)
     }
   }
 
@@ -242,10 +231,10 @@ e.target.pause()
 
   return (
   <>
-        <div className='his-hh'>
+        <div className={style.hishh}>
           <Barras  totalIndex={videos.length} porcentaje={porcentaje}   index={videos.findIndex(his => his._id === video._id)}  />
       <div  onClick={()=>ChangeVideo(false)} style={{height:"90vh",width:"33%",position:"absolute",left:'0',zIndex:'1'}} ></div>
-     <video   onContextMenu={(e)=>{e.preventDefault()}}  onTouchStart={pauseOplay} onTouchEnd={pauseOplay}   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className='video-his' src={`http://${host}:5000/${video.src}`}/>
+     <video   onContextMenu={(e)=>{e.preventDefault()}}  onTouchStart={pauseOplay} onTouchEnd={pauseOplay}   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className={style.video} src={`http://${host}:5000/${video.src}`}/>
      <div onClick={()=>ChangeVideo(true)} style={{height:"90vh",width:"33%",position:"absolute",right:"0",zIndex:'1',top:'0' }} ></div>
 
      </div>
@@ -276,7 +265,7 @@ let barritas = []
 
   for(let i=0; i<totalIndex; i++){
 
-    barritas.push(<Barra key={i} porcetaje={index === i ?  porcentaje : 0  } active={i <  index ? 'true' : 'false' }/>)
+    barritas.push(<Barra key={i} porcetaje={index === i ?  porcentaje : 0  } active={i <  index ? "true" : "false" }/>)
 
 
 
@@ -291,7 +280,7 @@ let barritas = []
 
 return (
 
-<div className='indicadores'>
+<div className={style.indicadores}>
           {barritas}
           </div>
 
@@ -307,7 +296,7 @@ return (
 
 const Barra = ({porcetaje,active}) => {
   return (
-    <progress className='indicator' max='100'    value={  active === "true" ?  '100'   : porcetaje.toString()}></progress>
+    <progress className={style.indicator} max='100'    value={  active === "true" ?  '100'   : porcetaje.toString()}></progress>
   )
 }
 

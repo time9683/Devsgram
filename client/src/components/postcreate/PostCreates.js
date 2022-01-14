@@ -1,31 +1,19 @@
 import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import {  useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
 
-import flechita from './flecha.svg'
-import check from './check.svg'
-import './PostCreate.css'
-
-const submitFile = gql`
-mutation fileSubmit($file:Upload,$text:String,$tipe:String) {
+import Flechita from 'src/assets/svgs/flecha'
+import Check from 'src/assets/svgs/check'
+import  style from './PostCreate.module.css'
+import { submitFile } from 'src/querys'
 
 
-  sendFile(file:$file,text:$text,tipe:$tipe) {
-
-  status
-
-
-  }
-
-}`
 
 export const PostCreate = () => {
   const [archive, SetArchive] = useState()
   const [description, setText] = useState('')
   const [tipe, setTipe] = useState('')
-  let renderizar
-  // const { register, handleSubmit } = useForm();
-
+  let renderizar       
   const [sendA, { err, loading, data }] = useMutation(submitFile)
 
   let result
@@ -48,12 +36,12 @@ export const PostCreate = () => {
     const UrlsImg = URL.createObjectURL(archive)
 
     if (archive.type === 'image/jpeg') {
-      renderizar = <img src={UrlsImg} alt="Archive" style={{ width: '60px', height: '60px', marginLeft: '10px' }} />
+      renderizar = <img src={UrlsImg} alt="Archive"  className={style.preview} />
     } else {
-      renderizar = <video src={UrlsImg} alt="Archive" style={{ width: '60px', height: '60px', marginLeft: '10px' }} />
+      renderizar = <video src={UrlsImg} alt="Archive" className={style.preview}/>
     }
   } else {
-    renderizar = <label htmlFor="archive" className='btn-archive'>subir</label>
+    renderizar = <label htmlFor="archive" className={style.btnArchive}>subir</label>
   }
 
   const onSubmit = (e) => {
@@ -66,11 +54,11 @@ export const PostCreate = () => {
 
   return (
 
-    <div style={{ backgroundColor: 'black', width: '100%', height: '100vh' }}>
+    <div  className={style.container}>
 
-      <div className="create-topBar">
-        <div className='left-topBar'>
-          <Link to='/home'><img src={flechita} className='Cflechita'></img></Link>
+      <div className={style.createTopBar}>
+        <div className={style.leftTopBar}>
+          <Link to='/home'><Flechita   className={style.Cflechita}/></Link>
 
           <h2>Nueva publicacion</h2>
         </div>
@@ -80,15 +68,15 @@ export const PostCreate = () => {
       <div>
         <form name="caca" id='caca' onSubmit={onSubmit}>
 
-          <div className='form_creates'>
-          <button type='submit' style={{ position: 'absolute', top: '15px', right: '20px', background: 'transparent', border: 'none' }}><img src={check}></img></button>
+          <div className={style.formCreates}>
+          <button type='submit' className={style.btnTransparent}><Check  width={30} height={50} /></button>
           {renderizar}
 
           <input type='file' style={{ display: 'none' }} name='archive' id='archive' onChange={(e) => { SetArchive(e.target.files[0]) }}></input>
 
-          <input type='text' className='text-description' onChange={(e) => { setText(e.target.value) }} value={description} placeholder="escribe un pie de foto" />
+          <input type='text' className={style.textDescription} onChange={(e) => { setText(e.target.value) }} value={description} placeholder="escribe un pie de foto" />
             </div>
-               <div className='form_tipes'>
+               <div className={style.formTipes}>
           <span>Reals</span><input type="radio" name="tipe" onClick={() => setTipe('Reals')} />
           <span>Post</span> <input type="radio" name="tipe" onClick={() => setTipe('Post')}/>
           <span>History</span><input type="radio" name="tipe" onClick={() => setTipe('History')}/>

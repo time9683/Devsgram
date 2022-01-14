@@ -9,9 +9,14 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 import clsx from 'clsx'
 
 
+//context
 import ThemeConsumer from 'src/context/themeContext'
+import UserConsumer from 'src/context/UserContext'
+
+//assets
 import phone  from   'src/assets/phone.png'
 import imagephone from 'src/assets/imagenphone.jpg'
+
 
 
 
@@ -31,12 +36,6 @@ mutation createA($email:String,$password:String,$name:String) {
 
 }
 
-
-
-
-
-
-
 `
 
 const Logiar = gql`
@@ -53,12 +52,14 @@ mutation auth($email:String,$password:String){
 export const LoginIn = (props) => {
 // let [Isactive,active] = useState(false)
 const {theme,toggleTheme} = useContext(ThemeConsumer)
+const {user,setUser} = useContext(UserConsumer)
+console.log(user)
 
   const { register, handleSubmit } = useForm()
   const [SendForm, { data, loading, error }] = useMutation(Logiar)
   let info
 
-  if (props.BoolAuth) {
+  if (user) {
     return <Redirect to='/home' />
   }
 
@@ -69,15 +70,15 @@ const {theme,toggleTheme} = useContext(ThemeConsumer)
   if (data) {
 
 
-    info = <p className={data.Auth.status == 'success' ? 'ok-color' : 'err-color'}>{data.Auth.status}</p>
+    info = <p className={data.Auth.status == 'success' ? style['ok-color'] : style['err-color']}>{data.Auth.status}</p>
 
-    console.log(data.Auth.Token)
+    console.log(data.Auth)
 
     localStorage.setItem('token', data.Auth.Token)
     localStorage.setItem('ID_A', data.Auth._id)
 
     if (data.Auth.status == 'success') {
-      props.auth(true)
+        setUser(data.Auth.Token)
 
       return (<Redirect to="/home" />)
     }
@@ -138,8 +139,8 @@ const selectorIdioma = clsx({[style.selectorIdioma]:true,[style.selectorIdiomaDa
 <h1 className={title}>Devsgram</h1>
 
 <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-<input type="text" className={InputForm} placeholder="email" {...register('email')}></input>
-<input type="text" className={InputForm} placeholder="password" {...register('password')}></input>
+<input type="text" required className={InputForm} placeholder="email" {...register('email')}></input>
+<input type="password" required className={InputForm} placeholder="password" {...register('password')}></input>
 
 <p className={style.text}>olvidaste tu contraseña?</p>
 <input className={style.btn} value="Login" type="submit"/>
@@ -232,9 +233,9 @@ const selectorIdioma = clsx({[style.selectorIdioma]:true,[style.selectorIdiomaDa
 <h1 className={title}>Devsgram</h1>
 
 <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-<input type="text" className={InputForm} placeholder="email o telefono" {...register('email')}></input>
-<input type="text" className={InputForm} placeholder="Username @example" {...register('username')} ></input>
-<input type="text" className={InputForm} placeholder="password" {...register('password')} ></input>
+<input type="email" required className={InputForm} placeholder="email o telefono" {...register('email')}></input>
+<input type="text" required className={InputForm} placeholder="Username @example" {...register('username')} ></input>
+<input type="password" required className={InputForm} placeholder="password" {...register('password')} ></input>
 <p className={style.text}>olvidaste tu contraseña?</p>
 
 <input className={style.btn} onClick={CreateAccuntion} type="submit" value='crear cuenta'></input>

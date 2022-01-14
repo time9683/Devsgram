@@ -1,4 +1,4 @@
-.barHis-elem{
+.Element{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,7 +10,7 @@
 
 
 
-.barHis-img{
+.ElementImage{
 padding: 2px;
     width: 60px;
     height: 60px;
@@ -19,14 +19,21 @@ padding: 2px;
         180deg, rgba(158,8,31,1) 38%, rgba(255,192,0,1) 91%);
 }
 
-.barHis-username{
+.Elementusername{
     font-size: 14px;
     font-weight: bold;
-    color: whitesmoke;
+    color: inherit;
 margin: 5px;
+color: black;
+
 }
 
-.barHis{
+
+
+
+
+
+.container{
     gap: 15px;
     padding-top: 15px;
     padding: 10px;
@@ -35,13 +42,24 @@ margin: 5px;
     justify-content:start ;
     align-items: center;
 height: 90px;
-background-color: black;
+background-color: rgb(255, 255, 255);
 
 overflow-x: scroll;
 overflow-y: hidden;
 
 
 }
+
+
+
+
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+
+
 
 
 a{
@@ -51,14 +69,18 @@ text-decoration: none;
 }
 
 
-.His-container{
+
+/* historias no modificar por ahora */
+
+
+.HisContainer{
 background-color: black;
 
 
 
 }
 
-.his_Display{
+.hisDisplay{
     scroll-behavior: smooth;
     transition: all 1s;
 overflow-x: scroll;
@@ -70,7 +92,7 @@ scroll-snap-type: x mandatory;
 }
 
 
-.his-send{
+.hisSend{
 height: 10vh;
 background-color: black;
 display: flex;
@@ -79,7 +101,7 @@ gap: 10px;
 
 }
 
-.video-his{
+.video{
 scroll-snap-align: start;
 
 
@@ -91,7 +113,7 @@ width: 100vw;
 }
 
 
-.his-hh{
+.hishh{
 
 position: relative;
 
@@ -129,7 +151,7 @@ progress::-webkit-progress-value {
 
 
 
-.input_send{
+.inputSend{
 width: 300px;
 margin-left: 10px;
 background: transparent;
@@ -144,7 +166,7 @@ height: 40px;
 }
 
 
-.input_button{
+.inputButton{
 
 width: 35px;
 height: 35px;
@@ -152,7 +174,103 @@ height: 35px;
 
 }
 
-.His-container{
+.HisContainer{
 overflow-y:hidden ;
 
 }
+
+
+
+
+
+
+
+/* create a media query that min witdh to be 700px */
+@media screen and (min-width: 650px) {
+
+/* that container with to  be 600px  and center and spacin to top 40px */
+.container{
+    width: 600px;
+    margin: auto;
+    margin-top: 10px;
+    height: 100px;
+  align-items: normal;
+  border: 1px solid rgb(202, 200, 200);
+}
+
+.hishh{
+
+width: 338px;
+
+}
+
+.video{
+
+width: 338px;
+
+}
+
+.hisDisplay{
+overflow-x: hidden;
+overflow-y:hidden;
+width: 338px;
+margin: auto;
+
+}
+
+.indicadores{
+width: 100%
+
+}
+
+
+
+
+.hisSend{
+
+    margin: auto;
+    width: 338px;
+    margin-top: 10px;
+    }
+    
+
+    .HisContainer{
+
+
+        height: 100vh;
+    }
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+.dark{
+
+
+
+    background-color: black;
+    color: white;
+    
+     border-color: rgb(56, 55, 55);
+    
+    
+    
+    
+    
+    }

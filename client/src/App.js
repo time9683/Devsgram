@@ -1,23 +1,12 @@
-// import logo from './logo.svg';
-import './App.css'
+
+
+//dependencias router y apollo
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link, Redirect
 } from 'react-router-dom'
-
-import { Resgistre, LoginIn } from './components/login'
-import { Home } from './components/home'
-import { Reals } from './components/reals'
-import { Search } from './components/search'
-import { Acccount } from './components/perfil'
-import { Config } from './components/PerfilConfig'
-import { PostCreate } from './components/PostCreates'
-
-import * as React from 'react'
-import { useState, useEffect } from 'react'
-
 import {
   ApolloClient,
   InMemoryCache,
@@ -25,7 +14,30 @@ import {
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { createUploadLink } from 'apollo-upload-client'
-import { VisorHistory } from './components/history/history'
+
+//contextos
+import { ThemeProvider } from 'src/context/themeContext'
+import { UserProvider } from 'src/context/UserContext'
+import UserConsumer from 'src/context/UserContext'
+import themeConsumer from 'src/context/themeContext'
+
+//stylos globales
+import './App.css'
+
+//componentes
+import { Resgistre, LoginIn } from 'src/components/login/login'
+import { Home } from 'src/components/home/home'
+import { Reals } from 'src/components/reals/reals'
+import { Search } from 'src/components/search/search'
+// import { Acccount } from './components/perfil'
+// import { Config } from './components/PerfilConfig'
+import { PostCreate } from 'src/components/postcreate/PostCreates'
+
+import * as React from 'react'
+import { useEffect,useContext } from 'react'
+
+
+import { VisorHistory } from 'src/components/history/history'
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -65,17 +77,52 @@ const client = new ApolloClient({
 })
 
 const App = () => {
-  const [Auth, setAuth] = useState(false)
+const {user,setUser} = useContext(UserConsumer)
+const {theme,toggleTheme} = useContext(themeConsumer)
 
-  useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
-      setAuth(true)
-    }
-  }, [])
 
-  const Logia = () => {
-    setAuth(true)
+
+useEffect(() => {
+  console.log(localStorage.getItem("theme"))
+  if (localStorage.getItem('token') !== null) {
+    setUser(localStorage.getItem('token'))
   }
+  if(localStorage.getItem('theme') != null){
+
+   if(localStorage.getItem("theme") !=  'light' ){
+
+    toggleTheme()
+
+   }
+
+
+
+
+  }
+
+
+}, [])
+
+
+useEffect(() => {
+
+if(theme !=   '' ){
+
+
+localStorage.setItem('theme',theme)
+
+}
+
+
+
+
+}, [theme])
+
+
+
+
+
+
 
   return (
 
@@ -90,7 +137,7 @@ const App = () => {
 </Route>
 
 <Route path="/home">
-  {Auth === true
+  {user 
     ? <Home/>
     : <Redirect to='login'/>}
 </Route>
@@ -100,26 +147,26 @@ const App = () => {
 
 </Route>
 
-<Route path="/cuenta">
+{/* <Route path="/cuenta">
 <Acccount/>
 
-</Route>
+</Route> */}
 
-<Route path="/perfil">
+{/* <Route path="/perfil">
 <Config/>
 
-</Route>
+</Route> */}
 
 <Route path="/search">
-  {
-Auth === true
+  
+{user 
   ? <Search/>
   : <Redirect to='/'/>
 }
 </Route>
 
 <Route path="/reals">
-{Auth === true
+{user
   ? <Reals/>
   : <Redirect to='/'/>}
 
@@ -130,7 +177,7 @@ Auth === true
 </Route>
 
 <Route path="/">
- <LoginIn BoolAuth={Auth} auth={Logia} />
+ <LoginIn/>
 </Route>
 </Switch>
 
@@ -142,7 +189,11 @@ Auth === true
 const SuperApp = () => {
   return (
 <ApolloProvider client={client}>
+  <UserProvider>
+<ThemeProvider >
 <App />
+</ThemeProvider>
+</UserProvider>
 </ApolloProvider>
   )
 }

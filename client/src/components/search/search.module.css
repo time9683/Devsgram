@@ -1,0 +1,70 @@
+.searchBar{
+    position: relative;
+
+
+
+background-color: white;
+
+padding: 10px;
+
+
+
+}
+.inputSearch{
+
+
+background-color:rgb(53, 52, 52);
+padding: 8px;
+
+padding-left:30px;
+border: none;
+width:90%;
+border-radius:8px;
+margin-left: 16px;
+color: white;
+}
+.inputSearch:focus-visible{
+outline: none;
+
+
+
+}
+.searchImg{
+
+width:20px;
+position: absolute;
+left:30px;
+top: 18px;
+}
+
+.viewP{
+
+width:131px;
+border: 2px gray solid;
+height:131px;
+}
+.viewImg{
+
+width:100%;
+height:100%;
+}
+.display{
+    min-height: calc(100vh - 50px - 50px);
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 60px;
+    align-content: flex-start;
+}
+
+
+.dark{
+
+
+background-color:rgb(0, 0, 0);
+color: white;
+border-color: rgb(68, 66, 66);
+
+
+
+
+}

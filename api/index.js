@@ -22,7 +22,7 @@ const typeDefs = require("./schemaQL");
 
 
 
-
+//importante
 
 
 const clave = 'pwdISCOOL';

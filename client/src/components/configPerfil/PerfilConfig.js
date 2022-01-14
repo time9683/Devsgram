@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar} from "./home"
+// import {Navbar} from "./home"
 
 
 export const Config  = () => {

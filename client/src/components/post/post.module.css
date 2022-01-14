@@ -1,0 +1,169 @@
+.imagen{
+
+
+
+    width: 100%;
+    max-height: 400px;
+    
+    
+    
+    }
+    
+    .PerfilImg{
+    
+    width: 35px;
+    height: 35px;
+    border-radius:50% ;
+    
+    
+    }
+    
+    .postPunto{
+    
+    width: 20px;
+    
+    
+    }
+    .postInfo{
+        padding:5px;
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    background-color:black
+    }
+
+
+ 
+
+
+
+
+    .postName{
+    color:white;
+    position:absolute;
+    top: 0px;
+    left: 50px;
+    
+    }
+    
+    .bottomBar{
+    
+    
+    display: flex;
+    justify-content:space-between;
+    background-color:black;
+    padding: 6px;
+    }
+    
+    .Options > svg{
+    width: 26px;
+    margin-left:26px ;
+    height: 30px;
+    }
+    
+    .postSave{
+    width: 26px;
+    height: 30px;
+    
+    }
+    .container{
+    position: relative;
+    width: 100vw;
+
+
+    
+    }
+
+
+
+    .postMore{
+    
+    background-color:black;
+    color:white;
+    padding:5px;
+    }
+    
+    .post-likes{
+    
+    font-size:14px;
+    margin-left: 10px;
+    
+    
+    }
+    .postsComments{
+    
+    font-size:14px;
+    color:rgb(177, 173, 173);
+    margin-left: 10px;
+    }
+    
+    .time{
+        margin-left: 10px;
+    font-size: 10px;
+    color: rgb(177, 173, 173);
+    }
+    
+
+
+
+
+
+.points{
+
+width: 25px;
+height: 30px;
+line-height: 50%;
+
+
+}
+
+
+
+
+
+
+   
+
+
+        @media  screen and (min-width: 650px) {
+
+            
+    .container{
+
+   width: 600px;
+/* height: 840px; */
+border: 1px solid rgb(56, 55, 55);
+
+    }
+
+    .postInfo{
+
+   padding: 15px;
+
+
+    }
+    .postName{
+
+   top:10px;
+   left: 50px;
+    }
+
+
+
+            
+        }
+
+
+
+    .light {
+        background-color: white;
+        color: black;
+        fill: black;
+        border-color: rgb(202, 200, 200);
+        }
+
+        .light > svg {
+
+        fill: black;
+
+        }

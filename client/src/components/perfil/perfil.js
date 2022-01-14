@@ -1,13 +1,13 @@
 import React,{useState}  from "react";
 import { Navbar } from "./home";
-import puntos from "./puntos.svg";
-import flecha  from "./flecha.svg";
-import perfil from "./perfil.jpg"
+// import puntos from "./puntos.svg";
+// import flecha  from "./flecha.svg";
+// import perfil from "./perfil.jpg"
 import "./perfiil.css"
 
-import real from './video.svg'
-import po from './pos.svg'
-import refe from './ref.svg'
+// import real from './video.svg'
+// import po from './pos.svg'
+// import refe from './ref.svg'
 
 
 

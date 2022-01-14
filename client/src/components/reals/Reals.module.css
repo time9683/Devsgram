@@ -1,0 +1,389 @@
+.container{
+    overflow-y:scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    /* height:vh; */
+    width: 100vw;
+    height:90vh;
+    position:relative;
+    }
+    
+    
+    .video{
+    height:90vh
+    }
+    
+    .containerVideo{
+        scroll-snap-align: start;
+    position: relative;
+    
+    }
+    
+    
+    
+
+    .ElementsImage{
+    width:25px;
+    height: 25px;
+    }
+    
+    
+    
+    
+    
+    
+    
+    .atributo{
+        z-index: 2;
+    margin-bottom: 20px;
+    
+    
+    }
+    
+    
+    
+    .atributos{
+    z-index: 1;
+        /* background-color: red; */
+        /* /* width:30px; */
+        right: 20px;
+        bottom: 80px;
+        position:absolute; 
+    color:white;
+    }
+
+
+
+    .atributo p{
+    
+    font-size: 12px;
+    
+    font-weight: bold;
+    }
+    .preview  .video{
+    height:200px;
+    width: 100vw;
+    /* background-color:black */
+    }
+    
+    
+    .preview {
+        height:200px;
+          overflow-y: hidden;
+        }
+    
+    
+    .preview .atributos{  
+    display:none;        
+        
+    }
+    
+    
+        .itemTopbar{
+    padding:0;
+    justify-content:space-between;
+    list-style: none;
+       display:flex;
+    margin: 0;
+    background-color: white;
+    color:black;
+    padding:10px;
+    
+    
+        }
+    
+        .BottomBarCommens{
+            display:flex;
+    
+         padding: 10px;
+         background-color:#444;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    
+        }
+    
+        .UserText{
+    
+            background-color:#444;
+            border:none;
+            color:white;
+            margin-left:10px;
+            font-size:16px;
+    
+        }
+        .UserText:focus-visible{
+    
+    outline:none;
+    
+    
+        }
+        .DisplayComents{
+    
+       background-color: white;
+    height: 62vh;
+    padding-bottom: 30px;
+    
+    overflow-y: scroll;
+    
+    
+        }
+    
+    .spinner{
+    
+    
+    border: 5px solid rgba(65, 64, 64, 0.1);
+    
+    border-left-color: rgb(41, 134, 184);
+    border-radius: 50%;
+    
+    
+    width: 150px;
+    height: 150px;
+    
+    
+    animation: spin 1s linear infinite;
+    }
+    
+    
+    @keyframes spin {
+        
+    0%{
+    
+    
+    transform: rotate(0deg);
+    
+    }
+    
+    100%{
+    
+    transform: rotate(360deg);
+    
+    
+    
+    }
+    
+    
+    
+    
+    }
+    
+    
+    
+    .likeHearFront{
+        width: 200px;
+         height: 200px;
+         position:absolute;
+                top:30vh;
+         left:30vw;
+     animation: hear-front  1 0.7s cubic-bezier(0.21, 0.56, 0.68, 1.04) forwards;
+    }
+    @keyframes hear-front {
+                
+    
+    0%{
+    width:20px;
+    height:20px;
+    
+    }
+    
+    
+    
+    50%{
+        transform: scale(1.3);
+    /* width:transform: scale(1.1);180px; */
+    
+    }
+    
+    100%{
+    
+    
+    transform:scale(0);
+    }
+    
+    
+    }
+    
+    
+    .atributo > p {
+    
+    display: flex;
+    justify-content: center;
+    
+    
+    
+    }
+    
+    
+    
+    
+    .spinnerLoadder{
+    
+    position: absolute;
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    }
+
+
+
+    .loadingBackground{
+
+
+        height: '90vh';
+        display: 'flex';
+        justify-content: 'center';
+        align-items: 'center';
+        background-color: 'black';
+
+    }
+
+
+    .ErrorBackground{
+        height: 90vh;
+        background-color: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+
+
+
+    .ExitElement{
+fill:black;
+        width:30px;
+        transform: rotate(180deg);
+        margin-right: 30px;
+
+    }
+
+
+    .UserImage{
+        width: 40px;
+         height: 40px;
+          border-radius: 50%
+
+
+    }
+
+
+
+
+    .btnPublic{
+
+
+        color: #039be5;
+        margin-top: 5px;
+        font-size: 14px;
+        border: none;
+        background-color: transparent;
+
+
+    }
+
+
+    .textBar{
+
+
+        font-size: 20px;
+         font-weight: bold;
+    }
+
+
+
+    .containerComent{
+        background-color: white;
+        color: black; 
+        padding: 10px;
+         margin-left: 10px
+
+
+
+    }
+
+
+    .ComentUserData{
+
+  display: flex;
+
+    }
+
+
+    .ComenImage{
+        margin-top: 5px;
+         width: 30px ;
+            height:30px;
+    }
+
+
+    .ContainertextComent{
+        font-size: 14px; 
+        margin-left: 10px;
+         width: 280px
+
+
+    }
+
+
+    .textComent{
+
+        margin-right: 10px; 
+        font-weight: bold;
+
+    
+
+    }
+
+    .ComentStast{
+        width: 200px;
+        display: flex;
+        justify-content: space-around;
+        font-size: 12px;
+        color: #777;
+        margin-left: 30px;
+
+    }
+
+
+@media screen and (min-width: 750px) {
+    
+    .RealsContainer{
+
+    width: 338px;
+    margin: auto;
+    /* height: 94vh; */
+
+    }
+
+    .video{
+
+        height: 94vh;
+    }
+
+    .container{
+
+        height: 94vh;
+    }
+
+
+    .preview{
+    height: 200px;
+    width: 100%;
+    }
+
+}
+
+
+
+
+.dark{
+fill: white;
+background-color: black;
+color: white;
+
+}

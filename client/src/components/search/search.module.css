@@ -56,12 +56,13 @@ top: 18px;
 
 .Recommended{
 
-background-color: black;
+background-color:  rgb(153, 145, 145);
 margin: 0;
 position: absolute;
-height: 60vh;
+height: 90vh;
 width: 100vw;
 padding: 10px;
+z-index: 1;
 
 }
 

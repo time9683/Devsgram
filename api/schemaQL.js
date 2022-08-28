@@ -1,13 +1,9 @@
-// const {buildSchema} = require("graphql")
-const {gql } = require('apollo-server');
-// const {GraphQLUpload} = require("graphql-upload");
+import { gql } from 'apollo-server'
 
-// const jwt = require("jsonwebtoken");
-// const clave = 'pwdISCOOL';
-
- const  typeDefs = gql`
+const typeDefs = gql`
 
 scalar Upload
+scalar Date
 
 type  AuthResponse {
 status: String
@@ -18,7 +14,7 @@ info : User
 }
 
 type History {  
-    historys: [Post]
+    historys: [post]
 Users: [User]
 code : Int
 
@@ -40,22 +36,25 @@ type Query  {
 
 GetUsers(name:String) : [User]
 
+GetReelsOfUser(id:String) : [post]
 
 "verifica si el token es valido y retorna cualquier informacion del usuario"
 Vauth(Token : String) :AuthResponse
-
+GetUsersWithHistory : [User]
 GetHistoryUsers : History
 
 
 "retorna todos los usuarios resgistrados"
 Users : [User]
 
-GetUser(id: String) : User
+GetUser(id: String,name: String) : User
 
 
 
-GetReals(page:Int,limit:Int) : [Post]
-getOneReal(_id: String) : Post
+GetReals(page:Int,limit:Int) : [post]
+GetAll(page:Int,limit:Int) : [post]
+getOneReal(_id: String) : post
+getOneContent(_id: String) : post
 
 }
 
@@ -88,6 +87,8 @@ modifiEmail(token: String,email:String) : User
 
 CreateAccount(email:String,name: String, password: String) : status
 
+follow(id: String) : status
+
 
 }
 
@@ -117,20 +118,23 @@ _id: ID
 name : String
 email : String
 age : Int
-Posts: [Post]
-
+posts: [post]
+followed: [User]
+followers: [User]
 
 }
 
-type Post {
+type post {
 _id : String
-Username : String
+UserInfo : User
 src : String
-tipo : String
+# tipo : String
+type: String
 description : String
 likes : [like]
 coments : [coment]
 ref: String
+date: Date
 }
 
 
@@ -145,7 +149,7 @@ idU: String
 
 type coment {
 
-ref : String
+    UserInfo: User
 text : String
 time : String
 
@@ -158,10 +162,6 @@ time : String
 
 
 
-`;
-
-
-
-
-
-module.exports = typeDefs;
+`
+// export in format module ES6
+export default typeDefs

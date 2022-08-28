@@ -123,6 +123,17 @@
     border-radius: 10px;
     }
     
+    .btn4{
+      background-color: rgb(36, 36, 36);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+
+
+    }
+
+
     .navList{
     padding:0;
         list-style: none;
@@ -164,7 +175,6 @@
     grid-template-columns: 1fr 1fr 1fr;
     min-height:50vh;
     /* height:; */
-    
     padding-bottom:70px ;
     }
     

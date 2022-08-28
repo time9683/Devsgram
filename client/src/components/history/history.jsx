@@ -2,16 +2,16 @@ import React,{useState,useEffect,useRef,useContext} from 'react'
 import { Link, useParams,withRouter } from 'react-router-dom'
 import  style from './historyBar.module.css'
 import { useQuery, gql } from '@apollo/client'
-import send  from 'src/assets/send.svg'
+import send  from '/src/assets/send.svg'
+// import send from ''
 
-
-
-import themeConsumer  from 'src/context/themeContext'
+import { CalcularTime } from '/src/utils/lib'
+import themeConsumer  from '/src/context/themeContext'
 import clsx from 'clsx'
 
 
-import { RealsTopixel } from 'src/utils/lib'
-import { QueryForHistory } from 'src/querys'
+import { RealsTopixel } from '/src/utils/lib.js'
+import { QueryForHistory } from '/src/querys'
 import { Redirect } from 'react-router-dom'
 
 
@@ -60,7 +60,7 @@ const obersevador = new IntersectionObserver(
 //create a hasmap  that contains the videos of users
 if(data){
 
-if(data.GetHistoryUsers.code == 401){
+if(data?.GetHistoryUsers?.code == 401){
 
 localStorage.removeItem('token')
 localStorage.removeItem('ID_A')
@@ -77,27 +77,29 @@ return <Redirect to="/"  />
 
 
 
-  const videos = data.GetHistoryUsers.historys.reduce((acc, cur) => {
-    if (!acc[cur.ref]) {
-      acc[cur.ref] = []
-    }
-    acc[cur.ref].push(cur)
-    return acc
-  }, {})
+  // const videos = data.GetHistoryUsers.historys.reduce((acc, cur) => {
+  //   if (!acc[cur.ref]) {
+  //     acc[cur.ref] = []
+  //   }
+  //   acc[cur.ref].push(cur)
+  //   return acc
+  // }, {})
 
 
 
 
-  let limite = Object.values(videos).length
-
-
+  // let limite = Object.values(videos).length
+  let limite = data?.GetUsersWithHistory?.length
+if(data){
+  console.log(data.GetUsersWithHistory)
+}
 
   return (
         <div className={style.HisContainer}>
               
             <div id='Display'  className={style.hisDisplay}>
                
-               {Object.entries(videos).map((his,index) => <VideoHis  history={history} key={index} position={index}  GloabalLimit={limite}  his={his} />)}
+               {data?.GetUsersWithHistory?.map((his,index) => <VideoHis  history={history} key={index} position={index}  GloabalLimit={limite}  infoUser={his.name}  his={his.posts} />)}
               
               
               
@@ -124,9 +126,10 @@ return <Redirect to="/"  />
 
 
 
-const VideoHis = ({his,position, GloabalLimit,history}) => {
+const VideoHis = ({his,position, GloabalLimit,history,infoUser}) => {
   const { id } = useParams()
-  const [videos, setVideos] = useState(his[1])
+  // console.log(his[0])
+  const [videos, setVideos] = useState(his)
   const [video, setVideo] = useState(videos[0])
  const [porcentaje,setPorcentaje] = useState(0)
 
@@ -145,7 +148,7 @@ const VideoHis = ({his,position, GloabalLimit,history}) => {
 //create a useeffect to read the url and scroll to the video correctly
   useEffect(() => {
 
-    if (his[0] === id) {
+    if (his[0]._id == id) {
       let scrol =   RealsTopixel(position)
       document.querySelector('#Display').scrollTo(scrol,0)
           
@@ -214,7 +217,7 @@ else {
 
 
 //recove the host from then enviroment
-const host = process.env.REACT_APP_HOST
+const host = import.meta.env.VITE_APP_HOST;
 
 const pauseOplay = (e)=>{
 
@@ -253,6 +256,7 @@ e.target.pause()
   <>
         <div className={style.hishh}>
           <Barras  totalIndex={videos.length} porcentaje={porcentaje}   index={videos.findIndex(his => his._id === video._id)}  />
+          <InfoUser date={video?.date} name={infoUser}   />
       <div  onClick={()=>ChangeVideo(false)} style={{height:"90vh",width:"33%",position:"absolute",left:'0',zIndex:'1'}} ></div>
      <video   onContextMenu={(e)=>{e.preventDefault()}}  onTouchStart={pauseOplay} onTouchEnd={pauseOplay}   autoPlay ref={Ev}  onTimeUpdate={(e)=>  setPorcentaje(e.target.currentTime /   e.target.duration * 100)   } onEnded={()=>ChangeVideo(true)}  className={style.video} src={`http://${host}:5000/${video.src}`}/>
      <div onClick={()=>ChangeVideo(true)} style={{height:"90vh",width:"33%",position:"absolute",right:"0",zIndex:'1',top:'0' }} ></div>
@@ -323,3 +327,26 @@ const Barra = ({porcetaje,active}) => {
 
 const VisorHistory = withRouter(VHistory)
 export  { VisorHistory  } 
+
+
+const InfoUser = (props) => {
+
+//create format with Intl.DateTimeFormat  to view : 1h ago
+// const date = new Intl.RelativeTimeFormat("es-Es")
+
+
+
+
+  return (<>
+  <div className={style.InfoContainer}>
+    <img className={style.imageUser} src={'https://depor.com/resizer/7L2j2QntLJAOAgU9NrqMo9Han5Q=/1200x1200/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/TB7NNEVPHBBCTB2FYKEJ673Q7M.jpg'} />
+    <p className={style.textUser}>{props.name}</p>
+    <p className={style.textData}>{CalcularTime( new Date(props.date).getTime())}</p>
+   
+
+  </div>
+  
+  
+  </>)
+
+}

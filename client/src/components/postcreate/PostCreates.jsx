@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import {  useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
 
-import Flechita from 'src/assets/svgs/flecha'
-import Check from 'src/assets/svgs/check'
+import Flechita from '/src/assets/svgs/flecha'
+import Check from '/src/assets/svgs/check'
 import  style from './PostCreate.module.css'
-import { submitFile } from 'src/querys'
+import { submitFile } from '/src/querys'
 
 
 

@@ -10,7 +10,8 @@ export const GetReals = gql`
         idU
       }
       coments {
-        ref
+        UserInfo{
+        name}
       }
     }
   }
@@ -46,11 +47,13 @@ mutation Comentar($id: String, $person: String, $text: String) {
 
 
 
-export const  GetComents = gql`
+export const GetComents = gql`
 query GetComents($id: String) {
   getOneReal(_id: $id) {
     coments {
-      ref
+      UserInfo{
+       name
+      }
       text
       time
     }
@@ -70,20 +73,16 @@ query getName($id: String){
 
 export const QueryForHistory = gql`
 query GetHistoryUsers {
-    GetHistoryUsers {
+  GetUsersWithHistory {
 
-        historys {
-
-             _id
-            src
-            ref
-        }
-        Users {
-
-           _id
-            name
-        }
-        code
+       _id
+       name
+       posts {
+         _id
+         src
+         date
+         }
+      
     }
 }
 `
@@ -114,3 +113,149 @@ export const GetUsers = gql`
 `
 
 
+
+export const GetUser = gql`
+query GetUser($name:String){
+  GetUser(name:$name){
+    name
+    _id
+    posts{
+      src
+      type
+      _id
+    }
+    followed{
+    
+    _id
+
+    }
+    followers{
+    _id
+    }
+  }
+}
+`
+
+
+export const getOneReal = gql`
+query getOneReal($id:String){
+  getOneReal(_id:$id){
+    src
+    _id
+    likes {
+      idU
+    }
+    coments {
+      UserInfo{
+         name
+        }
+      text
+    }
+  }
+}
+`
+
+
+
+export const GetOneAndmore = gql`
+
+query GetOneAndmore($id:String,$page:Int,$limit:Int){
+
+  GetReals(page:$page,limit:$limit) {
+      src
+      _id
+      likes {
+        idU
+      }
+      coments {
+        UserInfo{
+        name}
+        text
+      }
+    }
+
+
+    getOneReal(_id:$id){
+    src
+    _id
+    likes {
+      idU
+    }
+    coments {
+      UserInfo{
+      name}
+      text
+    }
+  }
+
+
+
+}
+
+
+`
+
+// schema for getcontent;  GetAll(page:Int,limit:Int) : [Post]
+
+export const getConten = gql`
+query getConten($page:Int,$limit:Int){
+      
+  GetAll(page:$page,limit:$limit) {
+      src
+      _id
+      likes {
+        
+        idU 
+      }
+      coments {
+        UserInfo{
+        name}
+        text
+      }
+    }
+}
+`
+
+
+export const getOneAndContent = gql`
+query getOneAndContent($id:String,$page:Int,$limit:Int){
+  getOneContent (_id:$id){
+    src
+    _id
+    likes {
+      idU
+    }
+    coments {
+      UserInfo{
+      name}
+      text
+    }
+  }
+
+  GetAll(page:$page,limit:$limit) {
+      src
+      _id
+      likes {
+        
+        idU 
+      }
+      coments {
+        UserInfo{
+        name}
+        text
+      }
+    }
+     
+
+
+}
+`
+
+export const setFollow = gql`
+mutation setFollow($id:String){
+  follow(id:$id){
+    status
+    
+    }
+}
+`

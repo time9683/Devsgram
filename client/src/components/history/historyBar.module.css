@@ -275,3 +275,35 @@ width: 100%
     
     
     }
+
+.imageUser{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit:cover
+ 
+}
+
+.textUser{
+    font-size: 14px;
+    font-weight: bold;
+    color: inherit;
+    margin: 5px;
+    color: white
+}
+
+.InfoContainer{
+    position:absolute;
+    display:flex;
+    top: 25px;
+  left:15px;
+}
+
+
+.textData{
+    font-size: 14px;
+    font-weight: bold;
+    color: inherit;
+    margin: 5px;
+    color: rgb(168, 164, 164)
+}

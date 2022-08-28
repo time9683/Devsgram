@@ -7,29 +7,38 @@ export const RealsTopixel = (amount) => {
   }
 
 
+const DATE_UNITS = {
+  day: 86400,
+  hour: 3600,
+  minute: 60,
+  second: 1,
+}
+
+const getSeconds = date =>  (Date.now() - date) / 1000
+
+
+
+const getUnitAndValue = (secondsElapsed) => {
+  for (const [unit,secondUnit] of Object.entries(DATE_UNITS)) {
+    if (secondsElapsed >= secondUnit || unit === "second") {
+        const value = Math.floor(secondsElapsed / secondUnit) * -1
+       return {value,unit}
+}
+  }
+}
+
+
   export const    CalcularTime = (time) => {
-    if (time < 60) {
-      return `${time.toFixed(0)}s`
-    }
+    const rtf = new Intl.RelativeTimeFormat('es-Es',{style:"short",numeric:"always"})
+    const seconds = getSeconds(time)
+    console.log(seconds)
+    const {value,unit} = getUnitAndValue(seconds)
+    return rtf.format(value, unit)
 
-    if (time >= 60) {
-      if (time >= 3600) {
-        if (time / 3600 >= 24) {
-          if ((time / 3600) * 24 >= 7) {
-            return `${((time / 3600) * 24 * 7).toFixed(0)}sem`
-          }
 
-          return `${((time / 3600) * 24).toFixed(0)}d`
-        }
-
-        return `${(time / 3600).toFixed(0)}h`
-      }
-
-      return `${(time / 60).toFixed(0)}m`
-    }
   }
 
 
   export  const commas = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }

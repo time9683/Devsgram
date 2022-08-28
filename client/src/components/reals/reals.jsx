@@ -1,32 +1,33 @@
 
 import React, { useState, useEffect, useRef, useContext } from 'react'
-import { Navbar } from 'src/components/home/home'
+import { Navbar } from '/src/components/home/home'
 // import './reals.css'
 import style from './Reals.module.css'
-import Hear from 'src/assets/svgs/hear'
-import Perfil from 'src/assets/perfil.jpg'
-import Burble from 'src/assets/svgs/burble'
-import Send from 'src/assets/svgs/send'
-import Puntos from 'src/assets/svgs/points'
-import Flechita from 'src/assets/svgs/flecha'
-import HearFill from 'src/assets/svgs/hearfill'
-import Perfil2 from 'src/assets/svgs/perfil'
-import poster from 'src/assets/negro.jpg'
+import Hear from '/src/assets/svgs/hear'
+import Perfil from '/src/assets/perfil.jpg'
+import Burble from '/src/assets/svgs/burble'
+import Send from '/src/assets/svgs/send'
+import Puntos from '/src/assets/svgs/points'
+import Flechita from '/src/assets/svgs/flecha'
+import HearFill from '/src/assets/svgs/hearfill'
+import Perfil2 from '/src/assets/svgs/perfil'
+import poster from '/src/assets/negro.jpg'
 
 
-import useIntersectionObserver from 'src/hooks/useObserver'
+import useIntersectionObserver from '/src/hooks/useObserver'
 
 import { useQuery, useMutation } from '@apollo/client'
-import { GetReals,Tolike,GetComents,sendComent,dislike,getUsername } from 'src/querys'
-import { CalcularTime,commas } from 'src/utils/lib'
-import ThemeConsumer from 'src/context/themeContext'
+import { GetReals, Tolike, GetComents, sendComent, dislike, getUsername, getOneReal, GetOneAndmore } from '/src/querys'
+import { CalcularTime, commas, RealsTopixel } from '/src/utils/lib'
+import ThemeConsumer from '/src/context/themeContext'
 
 // client/src/context/themeContext.js
 import clsx from 'clsx'
+import { useParams } from 'react-router-dom'
 
 
 // recove host from enviroment
-const host = process.env.REACT_APP_HOST
+const host = import.meta.env.VITE_APP_HOST;
 
 const obersevador = new IntersectionObserver(
 
@@ -47,8 +48,17 @@ const obersevador = new IntersectionObserver(
 
 
 export const Reals = () => {
+  const { id } = useParams()
   const [ViewComents, Vactive] = useState(false)
   const [view, setView] = useState()
+
+
+
+
+
+
+
+  console.log(id)
 
   useEffect(() => { }, [])
 
@@ -66,14 +76,14 @@ export const Reals = () => {
 
   const rootRef = useRef()
 
-const {theme} =useContext(ThemeConsumer)
+  const { theme } = useContext(ThemeConsumer)
 
 
 
 
 
 
-const container = clsx ({[style.container]:true,[style.dark]:theme !== 'light'})
+  const container = clsx({ [style.container]: true, [style.dark]: theme !== 'light' })
 
 
 
@@ -85,29 +95,69 @@ const container = clsx ({[style.container]:true,[style.dark]:theme !== 'light'})
     <div>
       <div
         ref={rootRef}
-        className={ViewComents === false ? container: container +' ' + style.preview }
+        className={ViewComents === false ? container : container + ' ' + style.preview}
       >
-        <div  className={ViewComents === false ? style.RealsContainer : style.RealsContainer +' ' + style.previewReals }>
-        <Display handleC={SwichtComents} rooRef={rootRef} />
+        <div className={ViewComents === false ? style.RealsContainer : style.RealsContainer + ' ' + style.previewReals}>
+
+          <Display id={id} handleC={SwichtComents} rooRef={rootRef} />
         </div>
       </div>
       {ViewComents === false
         ? (
           <Navbar />
-          )
+        )
         : (
           <Comentarios _id={view} handleCommnets={SwichtComents} />
-          )}
+        )}
 
     </div>
   )
 }
 
 const Display = (props) => {
-  const { loading, error, data, fetchMore, refetch } = useQuery(GetReals, { variables: { page: 0, limit: 10 } })
+  let query = props.id ? GetOneAndmore : GetReals
+  let option = props.id ? { variables: { page: 0, limit: 10, id: props.id } } : { variables: { page: 0, limit: 10 } }
+
+  const { loading, error, data, fetchMore, refetch } = useQuery(query, option)
   const [page, setPage] = useState(0)
   const externalRef = useRef()
-  const ref = useIntersectionObserver(props.rooRef.current, () => { setPage((page) => page + 1) }, loading ? null : externalRef)
+  const ref = useIntersectionObserver(props.rooRef.current, () => { setPage((page) => page + 1) }, loading ? null : externalRef, RealsTopixel(5))
+
+  if (data) {
+    console.log(data)
+
+  }
+  let reals = []
+
+
+  if (props.id) {
+    reals.push(<Video
+
+
+      ComentsCan={data?.getOneReal?.coments}
+      status={false}
+      key={data?.getOneReal?._id}
+      src={`http://${host}:5000${data?.getOneReal?.src}`}
+      likes={data?.getOneReal?.likes}
+      id={data?.getOneReal?._id}
+      handleCommnets={props.handleC}
+
+
+    ></Video>)
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (data && page === 0) {
@@ -128,7 +178,7 @@ const Display = (props) => {
   if (loading) {
     return (
       <div
-       className={style.loadingBackground}
+        className={style.loadingBackground}
       >
         {' '}
         <div className={style.spinner}></div>
@@ -139,32 +189,48 @@ const Display = (props) => {
   if (error) {
     return (
       <div
-          className={style.ErrorBackground}
+        className={style.ErrorBackground}
       >
         <p>hubo un error en el ingreso de datos</p>
       </div>
     )
   }
 
+
+
+
+
+  let reel = data.GetReals.map((vide) => (
+    <Video
+      ComentsCan={vide.coments}
+      status={false}
+      key={vide._id}
+      src={`http://${host}:5000${vide.src}`}
+      likes={vide.likes}
+      id={vide._id}
+      handleCommnets={props.handleC}
+    />
+  ))
+
+
+
+  reals = reals.concat(reel)
+
+
+
+
+
   return <>
     {
-      data.GetReals.map((vide) => (
-        <Video
-          ComentsCan={vide.coments}
-          status={false}
-          key={vide._id}
-          src={`http://${host}:5000${vide.src}`}
-          likes={vide.likes}
-          id={vide._id}
-          handleCommnets={props.handleC}
-        />
-      ))
+      reals
     }
 
     <div id="visor" ref={externalRef}></div>
 
   </>
+
 }
+
 
 
 
@@ -246,7 +312,7 @@ const Video = (props) => {
     <div className={style.containerVideo}>
       <div className={style.atributos}>
         <div className={style.atributo} onClick={like}>
-            {Melike ? <Hear className={style.ElementsImage} fill='red' /> : <HearFill  className={style.ElementsImage}/>}
+          {Melike ? <Hear className={style.ElementsImage} fill='red' /> : <HearFill className={style.ElementsImage} />}
           <p style={{ color: 'white' }}>{commas(props?.likes?.length)}</p>
         </div>
 
@@ -267,7 +333,7 @@ const Video = (props) => {
         </div>
 
         <div className={style.atributo}>
-            <Puntos className={style.ElementsImage}/>
+          <Puntos className={style.ElementsImage} />
         </div>
       </div>
 
@@ -318,7 +384,7 @@ const Video = (props) => {
 //comentarios
 const Comentarios = (props) => {
 
-  const {theme} = useContext(ThemeConsumer)
+  const { theme } = useContext(ThemeConsumer)
 
 
 
@@ -359,15 +425,15 @@ const Comentarios = (props) => {
   let coments
   if (data.getOneReal.coments != null) {
     coments = data.getOneReal.coments.map((x, index) => (
-      <Comentario key={x.ref + index} name={x.ref} timestamp={x.time} text={x.text} />
+      <Comentario key={index} name={x.UserInfo.name} timestamp={x.time} text={x.text} />
     ))
   }
 
 
 
-const ExitElement = clsx({[style.ExitElement]:true,[style.dark]:theme !== 'light' })
-const itemTopbar = clsx({[style.itemTopbar]:true,[style.dark]:theme !== 'light' })
-const DisplayComents = clsx({[style.DisplayComents]:true,[style.dark]:theme !== 'light' })
+  const ExitElement = clsx({ [style.ExitElement]: true, [style.dark]: theme !== 'light' })
+  const itemTopbar = clsx({ [style.itemTopbar]: true, [style.dark]: theme !== 'light' })
+  const DisplayComents = clsx({ [style.DisplayComents]: true, [style.dark]: theme !== 'light' })
 
   return (
     <div>
@@ -383,18 +449,18 @@ const DisplayComents = clsx({[style.DisplayComents]:true,[style.dark]:theme !== 
             </span>
           </li>
           <li>
-            <Send  />
+            <Send />
           </li>
         </ul>
       </div>
 
       <div className={DisplayComents}>{coments}</div>
       <div className={style.BottomBarCommens}>
-        <img 
-        src={Perfil}
-        
-         className={style.UserImage}
-         
+        <img
+          src={Perfil}
+
+          className={style.UserImage}
+
         />
         <input
           type="text"
@@ -417,37 +483,36 @@ const DisplayComents = clsx({[style.DisplayComents]:true,[style.dark]:theme !== 
 // eslint-disable-next-line no-unused-vars
 const Comentario = (props) => {
 
-  const {theme} = useContext(ThemeConsumer)
-  const { loading, data, err } = useQuery(getUsername, { variables: { id: props.name } })
-  let username
+  const { theme } = useContext(ThemeConsumer)
+const [time,setTime] =  useState()
 
-  if (loading) {
-    username = '...'
-  }
 
-  if (data) {
-    console.log(data)
-    username = data.GetUser.name
-  }
+useEffect(()=>{
+  setTime(CalcularTime(props.timestamp))
 
-const containerComent = clsx({[style.containerComent]:true,[style.dark]:theme !== 'light' })
+},[])
+
+
+  const containerComent = clsx({ [style.containerComent]: true, [style.dark]: theme !== 'light' })
 
   return (
     <div className={containerComent}>
-      <div  className={style.ComentUserData}>
-        <Perfil2  className={style.ComenImage}  />
-        <p  className={style.ContainertextComent}><span className={style.textComent}>{username}</span>{props.text}</p>
+      <div className={style.ComentUserData}>
+        <Perfil2 className={style.ComenImage} />
+        <p className={style.ContainertextComent}><span className={style.textComent}>{props.name}</span>{props.text}</p>
       </div>
       <div
-      className={style.ComentStast}
+        className={style.ComentStast}
         style={{
-         
+
         }}
       >
-        <p>{CalcularTime((new Date() - props.timestamp) / 1000)}</p>
+        <p>{time}</p>
         <p>{props.likes} Me gustas</p>
         <p>Responder</p>
       </div>
     </div>
   )
 }
+
+

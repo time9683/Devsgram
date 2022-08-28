@@ -10,12 +10,12 @@ import clsx from 'clsx'
 
 
 //context
-import ThemeConsumer from 'src/context/themeContext'
-import UserConsumer from 'src/context/UserContext'
+import ThemeConsumer from '/src/context/themeContext'
+import UserConsumer from '/src/context/UserContext'
 
 //assets
-import phone  from   'src/assets/phone.png'
-import imagephone from 'src/assets/imagenphone.jpg'
+import phone  from   '/src/assets/phone.png'
+import imagephone from '/src/assets/imagenphone.jpg'
 
 
 
